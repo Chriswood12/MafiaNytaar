@@ -818,23 +818,23 @@
       sealBg: 'radial-gradient(circle at 35% 35%, #c9a84c, #7a5c10)',
       color: '#c9a84c',
       description:
-        'Du er Don Christofo og aftenens spilleder (Gamemaster). Du kender alle 9 spilleres roller: 2 Forrædere (Willy & Jacob), 1 Efterforsker/Seer (Vanni), 1 Giftblander/Heks (Anne), 1 Snigskytte/Jæger (Sebastian) og 4 Familiemedlemmer (Tilde, Freddy, Aske & Christian).',
+        'Du er Don Christofo og aftenens spilleder (Gamemaster). Du kender alle 8 spilleres roller: 2 Forrædere (Aske & Jacob), 1 Efterforsker/Seer (Vanni), 1 Giftblander/Heks (Anne), 1 Snigskytte/Jæger (Sebastian) og 3 Familiemedlemmer (Tilde, Freddy & Christian).',
       secret: 'Du ved alt. Styr natten og hold orden i familien.',
       charSecret:
         'Don Christofo har gennem årene truffet beslutninger, som har skabt fjender både inden for og uden for familien. Mordet på hans bror Lorenzo kan være tættere forbundet med hans egen fortid, end han ønsker at indrømme.'
     },
-    BRUJA7: {
-      realName: 'Willy',
-      mafiaName: 'Guglielmo Di Legno',
+    LUPO13: {
+      realName: 'Aske',
+      mafiaName: 'Ascanio Di Legno',
       emoji: '🗡️',
       role: 'Forræder (Varulv)',
       sealBg: 'radial-gradient(circle at 35% 35%, #555, #111)',
       color: '#f87171',
       description:
         'Du er én af familiens 2 forrædere (Varulve). Hver nat vågner I sammen i hemmelighed og vælger én spiller at eliminere. Om dagen skal I blande jer i debatten og skjule jeres identitet — ingen må opdage, at det er jer.',
-      secret: 'Magten skal skifte hænder. Stol kun på din medskyldige om natten.',
+      secret: 'Du er ulven i fåreklæder. Stol kun på din medskyldige om natten.',
       charSecret:
-        'Guglielmo har længe følt, at hans storebror har taget al magten og æren for familiens succes. Han mener selv, at han har været mindst lige så afgørende for imperiets opbygning, og måske er han begyndt at overveje, hvordan magten kunne skifte hænder.'
+        'Ascanio har et særligt tæt forhold til sin mor og vil gøre næsten alt for at beskytte hende. Men hans loyalitet bliver sat på prøve, da han opdager, at hun muligvis skjuler noget afgørende om mordet på hans far Lorenzo.'
     },
     FRECCIA: {
       realName: 'Jacob',
@@ -913,19 +913,6 @@
       secret: 'Ingen lyver ustraffet for dig. Sæt dem på plads i rådet.',
       charSecret:
         'Fredericca er træt af altid at være andenprioritet. Hun drømmer om mere indflydelse i familien og er måske villig til at gå længere, end nogen forestiller sig, for at få den.'
-    },
-    LUPO13: {
-      realName: 'Aske',
-      mafiaName: 'Ascanio Di Legno',
-      emoji: '👔',
-      role: 'Familiemedlem',
-      sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
-      color: '#94a3b8',
-      description:
-        'Du er et loyalt familiemedlem (Landsbyboer) uden specielle nat-evner. Din styrke er debatten og afstemningen om dagen — observér, lyt og stem forræderne ud.',
-      secret: 'Beskyt blodet. Lad ikke forræderne slippe afsted med mordet.',
-      charSecret:
-        'Ascanio har et særligt tæt forhold til sin mor og vil gøre næsten alt for at beskytte hende. Men hans loyalitet bliver sat på prøve, da han opdager, at hun muligvis skjuler noget afgørende om mordet på hans far Lorenzo.'
     },
     ROCCIA: {
       realName: 'Christian',
