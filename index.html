@@ -2,222 +2,377 @@
 <html lang="da">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>Familien Di Legno — Nytårsaften</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --gold: #c9a84c;
-      --gold-light: #e8d08a;
+      --gold-light: #f5e3a9;
       --blood: #8b0000;
+      --blood-glow: #b91c1c;
       --ink: #1a0a00;
-      --parchment: #f5ead6;
-      --parchment-dark: #e8d4b0;
+      --parchment: #f6eedb;
+      --bg: #090401;
     }
 
-    html { scroll-behavior: smooth; }
-
     body {
-      background: #0a0500;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-family: 'Cormorant Garamond', serif;
-      overflow-x: hidden;
-      padding: 40px 16px 60px;
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at 50% 20%, #1c0a02 0%, #090401 80%);
+      color: #2a1500;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      padding: 24px 14px 60px;
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* ── Particles — lightweight sparks ── */
-    #particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-    .smoke {
-      position: absolute; bottom: -20px;
-      width: 2px; height: 35px;
-      border-radius: 999px;
-      background: linear-gradient(to top, rgba(201,168,76,0.3), transparent);
-      animation: drift linear infinite;
-      will-change: transform, opacity;
+    /* ── Messenger / In-App Helper Banner ── */
+    #messenger-banner {
+      display: none;
+      max-width: 760px;
+      margin: 0 auto 16px;
+      background: rgba(139, 0, 0, 0.25);
+      border: 1px solid rgba(201, 168, 76, 0.5);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+      line-height: 1.4;
     }
-    @keyframes drift {
-      0%   { transform: translate3d(0, 0, 0); opacity: 0; }
-      15%  { opacity: 0.8; }
-      85%  { opacity: 0.3; }
-      100% { transform: translate3d(var(--dx), -105vh, 0); opacity: 0; }
-    }
-
-    /* ── Drips — GPU transform only (no layout reflow) ── */
-    .drips { position: fixed; top: 0; left: 0; right: 0; height: 75px; pointer-events: none; z-index: 10; overflow: hidden; }
-    .drip {
-      position: absolute; top: 0;
-      width: 4px; height: 75px;
-      background: linear-gradient(to bottom, var(--blood), rgba(139,0,0,0.1) 85%, transparent);
-      border-radius: 0 0 4px 4px;
-      transform-origin: top;
-      animation: drip-fall ease-in-out infinite;
-      will-change: transform, opacity;
-    }
-    @keyframes drip-fall {
-      0%   { transform: scaleY(0.1); opacity: 0; }
-      25%  { opacity: 0.9; }
-      75%  { transform: scaleY(1); opacity: 0.85; }
-      100% { transform: scaleY(1.05); opacity: 0; }
+    #messenger-banner strong {
+      color: #fff;
     }
 
-    /* ── Intro Screen ── */
-    #intro-screen {
-      position: fixed; inset: 0;
-      background: #0a0500;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      z-index: 100;
-      animation: fade-out 0.5s ease-out 1.7s forwards;
-      cursor: pointer;
-      will-change: opacity;
-    }
-    @keyframes fade-out { to { opacity: 0; visibility: hidden; pointer-events: none; } }
-    .seal {
-      width: 140px; height: 140px; border-radius: 50%;
-      border: 3px solid var(--gold);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      background: radial-gradient(circle, #3a0000, #0a0500);
-      box-shadow: 0 0 35px rgba(201,168,76,0.35);
-      animation: seal-stamp 0.5s cubic-bezier(0.17,0.67,0.47,1.2) 0.2s both;
-    }
-    @keyframes seal-stamp {
-      0%   { transform: scale(2.5) rotate(-10deg); opacity: 0; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-    .seal-monogram { font-family: 'Cinzel', serif; font-size: 2.2rem; font-weight: 900; color: var(--gold); line-height: 1; }
-    .seal-text { font-family: 'Cinzel', serif; color: var(--gold); font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; text-align: center; line-height: 1.5; margin-top: 4px; }
-    .intro-warning { margin-top: 24px; font-family: 'Cinzel', serif; color: var(--blood); font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; animation: flicker 1.4s ease-in-out infinite; }
-    @keyframes flicker { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
-
-    /* ── Letter ── */
+    /* ── Main Letter Wrap ── */
     #letter-wrap {
-      position: relative; z-index: 1; max-width: 820px; width: 100%;
-      animation: letter-rise 0.7s ease-out 1.4s both;
-      will-change: transform, opacity;
-    }
-    @keyframes letter-rise {
-      from { opacity: 0; transform: translate3d(0, 30px, 0); }
-      to   { opacity: 1; transform: translate3d(0, 0, 0); }
+      max-width: 760px;
+      margin: 0 auto;
     }
 
+    /* ── Parchment Paper ── */
     .paper {
-      background: radial-gradient(ellipse at 20% 10%, #fdf6e3 0%, transparent 60%),
-                  radial-gradient(ellipse at 80% 90%, #f0dbb8 0%, transparent 60%),
-                  linear-gradient(160deg, #f8edd2, #ecdcb4, #f5e9cc);
+      background-color: var(--parchment);
+      background-image: linear-gradient(175deg, #fbf4e4 0%, #f1e2c4 100%);
+      border: 2px solid var(--gold);
       border-radius: 4px;
-      border: 1px solid var(--gold);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.85);
-      padding: 55px 50px 65px;
-      position: relative; overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
+      padding: 44px 34px 50px;
+      position: relative;
     }
 
-    .ornament-top { text-align: center; margin-bottom: 10px; }
-    .ornament-line { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 6px 0; }
-    .ornament-line::before, .ornament-line::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); }
-    .ornament-diamond { color: var(--blood); font-size: 0.65rem; letter-spacing: 0.5em; }
+    /* ── Top Crest & Seal ── */
+    .top-seal-wrap {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .top-seal {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 105px;
+      height: 105px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #420303, #150000);
+      border: 3px solid var(--gold);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+      margin-bottom: 14px;
+    }
+    .seal-monogram {
+      font-family: 'Cinzel', serif;
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .seal-sub {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
 
-    .crest { text-align: center; margin-bottom: 24px; }
-    .crest-title { font-family: 'Cinzel', serif; font-size: 2.2rem; font-weight: 900; color: var(--blood); letter-spacing: 0.15em; text-transform: uppercase; line-height: 1; }
-    .crest-sub { font-family: 'Cinzel', serif; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.5em; text-transform: uppercase; margin-top: 4px; }
+    .crest-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: var(--blood);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .crest-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      color: #795713;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
 
-    .stamp-classified { position: absolute; top: 40px; right: 40px; border: 2px solid var(--blood); color: var(--blood); font-family: 'Cinzel', serif; font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; padding: 4px 8px; transform: rotate(10deg); opacity: 0.7; }
+    .ornament-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin: 12px 0 20px;
+    }
+    .ornament-line::before, .ornament-line::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+    .ornament-diamond {
+      color: var(--blood);
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+    }
 
-    .salutation { font-family: 'IM Fell English', serif; font-style: italic; font-size: 1.5rem; color: var(--ink); margin-bottom: 20px; }
+    /* ── Stamp ── */
+    .stamp-classified {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      border: 2px solid var(--blood);
+      color: var(--blood);
+      font-family: 'Cinzel', serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      transform: rotate(8deg);
+      opacity: 0.75;
+    }
 
-    .para { font-size: 1.05rem; line-height: 1.85; color: #2a1500; margin-bottom: 18px; text-align: justify; hyphens: auto; }
-    .para strong { color: var(--blood); font-weight: 700; }
-    .para em { font-style: italic; color: #3a1a00; }
+    /* ── Salutation & Paragraphs ── */
+    .salutation {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: 1.45rem;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
 
-    .order-header { font-family: 'Cinzel', serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.35em; color: var(--blood); text-transform: uppercase; text-align: center; margin: 32px 0 18px; }
-    .order-header::before, .order-header::after { content: '✦'; margin: 0 10px; color: var(--gold); font-size: 0.7rem; }
+    .para {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #271404;
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+    .para strong {
+      color: var(--blood);
+      font-weight: 700;
+    }
+    .para em {
+      font-style: italic;
+    }
 
-    .timeline { list-style: none; border-left: 2px solid var(--gold); margin-left: 15px; }
-    .timeline-item { position: relative; padding: 8px 0 8px 24px; }
-    .timeline-item::before { content: ''; position: absolute; left: -6px; top: 15px; width: 10px; height: 10px; border-radius: 50%; background: var(--blood); border: 2px solid var(--gold); }
-    .timeline-time { font-family: 'Cinzel', serif; font-size: 0.85rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
-    .timeline-desc { font-size: 0.98rem; color: #2a1500; line-height: 1.65; margin-top: 2px; }
+    /* ── Timeline Section ── */
+    .order-header {
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      color: var(--blood);
+      text-transform: uppercase;
+      text-align: center;
+      margin: 28px 0 16px;
+    }
+    .order-header::before, .order-header::after {
+      content: '✦';
+      margin: 0 8px;
+      color: var(--gold);
+      font-size: 0.65rem;
+    }
 
-    .warning-box { margin: 28px 0; padding: 16px 20px; border: 1px solid var(--blood); border-left: 4px solid var(--blood); background: rgba(139,0,0,0.05); position: relative; }
-    .warning-box::before { content: '⚠'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--parchment); padding: 0 8px; color: var(--blood); font-size: 1rem; }
-    .warning-text { font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.2em; color: var(--blood); text-align: center; text-transform: uppercase; line-height: 1.7; }
+    .timeline {
+      list-style: none;
+      border-left: 2px solid var(--gold);
+      margin-left: 10px;
+      margin-bottom: 24px;
+    }
+    .timeline-item {
+      position: relative;
+      padding: 8px 0 8px 20px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 14px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--blood);
+      border: 2px solid var(--gold);
+    }
+    .timeline-time {
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #8c6008;
+      letter-spacing: 0.06em;
+    }
+    .timeline-desc {
+      font-size: 0.98rem;
+      color: #271404;
+      line-height: 1.6;
+      margin-top: 2px;
+    }
 
-    .quote { text-align: center; margin: 28px 0; padding: 0 15px; }
-    .quote-text { font-family: 'IM Fell English', serif; font-style: italic; font-size: 1.25rem; color: var(--ink); line-height: 1.55; }
+    /* ── Warning & Quote ── */
+    .warning-box {
+      margin: 24px 0;
+      padding: 14px 18px;
+      border: 1px solid var(--blood);
+      border-left: 4px solid var(--blood);
+      background: rgba(139,0,0,0.06);
+      position: relative;
+    }
+    .warning-box::before {
+      content: '⚠';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f8f1de;
+      padding: 0 6px;
+      color: var(--blood);
+      font-size: 0.95rem;
+    }
+    .warning-text {
+      font-family: 'Cinzel', serif;
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      color: var(--blood);
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+
+    .quote {
+      text-align: center;
+      margin: 26px 0;
+      padding: 0 10px;
+    }
+    .quote-text {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--ink);
+      line-height: 1.5;
+    }
     .quote-text::before { content: '\201C'; }
     .quote-text::after  { content: '\201D'; }
 
-    .signature-block { margin-top: 36px; text-align: right; }
-    .sign-closing { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: #2a1500; line-height: 1.7; font-style: italic; }
-    .sign-name { font-family: 'IM Fell English', serif; font-size: 1.85rem; font-style: italic; color: var(--blood); margin-top: 6px; display: block; }
+    /* ── Signature ── */
+    .signature-block {
+      margin-top: 32px;
+      text-align: right;
+    }
+    .sign-closing {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.95rem;
+      color: #271404;
+      line-height: 1.6;
+      font-style: italic;
+    }
+    .sign-name {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 1.75rem;
+      font-style: italic;
+      color: var(--blood);
+      margin-top: 4px;
+      display: block;
+    }
 
-    .bottom-seal { text-align: center; margin-top: 32px; }
-    .wax-seal { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; width: 85px; height: 85px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #d44, var(--blood), #5a0000); box-shadow: 0 4px 15px rgba(139,0,0,0.5); }
-    .wax-seal span { font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 900; color: rgba(255,255,255,0.92); }
-    .wax-seal small { font-family: 'Cinzel', serif; font-size: 0.38rem; color: rgba(255,255,255,0.7); letter-spacing: 0.3em; text-transform: uppercase; }
-
-    .corner-ornament { position: absolute; font-size: 1.2rem; opacity: 0.25; color: var(--gold); pointer-events: none; }
-    .corner-ornament.tl { top: 14px; left: 16px; }
-    .corner-ornament.tr { top: 14px; right: 16px; transform: scaleX(-1); }
-    .corner-ornament.bl { bottom: 14px; left: 16px; transform: scaleY(-1); }
-    .corner-ornament.br { bottom: 14px; right: 16px; transform: scale(-1,-1); }
+    /* ── Bottom Wax Seal ── */
+    .bottom-seal {
+      text-align: center;
+      margin-top: 26px;
+    }
+    .wax-seal {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #9b111e, #550000);
+      box-shadow: 0 3px 12px rgba(139,0,0,0.45);
+    }
+    .wax-seal span {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #fff;
+    }
+    .wax-seal small {
+      font-family: 'Cinzel', serif;
+      font-size: 0.35rem;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
 
     /* ════════════════════════════════
        KODE-SEKTION
     ════════════════════════════════ */
     #code-section {
-      position: relative; z-index: 1;
-      max-width: 820px; width: 100%;
-      margin-top: 36px;
-      animation: letter-rise 0.7s ease-out 1.6s both;
-      will-change: transform, opacity;
+      max-width: 760px;
+      margin: 30px auto 0;
     }
 
     .code-card {
-      background: linear-gradient(145deg, #100500, #1a0800);
-      border: 1px solid rgba(201,168,76,0.35);
+      background: #110501;
+      border: 1px solid rgba(201,168,76,0.4);
       border-top: 2px solid var(--gold);
       border-radius: 4px;
-      padding: 40px 32px 46px;
+      padding: 34px 22px 38px;
       text-align: center;
-      position: relative;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
 
     .code-eyebrow {
       font-family: 'Cinzel', serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.4em;
-      color: rgba(201,168,76,0.6);
+      font-size: 0.58rem;
+      letter-spacing: 0.35em;
+      color: rgba(201,168,76,0.65);
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .code-heading {
       font-family: 'Cinzel', serif;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: var(--gold);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       margin-bottom: 6px;
     }
     .code-subtext {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Cormorant Garamond', Georgia, serif;
       font-style: italic;
-      color: rgba(245,234,214,0.6);
+      color: rgba(245,234,214,0.65);
       font-size: 0.95rem;
-      line-height: 1.5;
-      margin-bottom: 26px;
+      line-height: 1.45;
+      margin-bottom: 22px;
     }
 
     .code-input-wrap {
       display: flex;
-      max-width: 380px;
+      max-width: 360px;
       margin: 0 auto;
       border: 1px solid rgba(201,168,76,0.5);
       border-radius: 3px;
@@ -228,260 +383,320 @@
       background: rgba(255,255,255,0.06);
       border: none;
       outline: none;
-      padding: 14px 18px;
+      padding: 13px 16px;
       font-family: 'Cinzel', serif;
       font-size: 16px; /* Prevents auto-zoom on iOS */
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       color: var(--gold-light);
       text-transform: uppercase;
       caret-color: var(--gold);
     }
-    .code-input::placeholder { color: rgba(201,168,76,0.3); letter-spacing: 0.15em; font-size: 14px; }
+    .code-input::placeholder {
+      color: rgba(201,168,76,0.35);
+      letter-spacing: 0.15em;
+      font-size: 13px;
+    }
     .code-btn {
       background: var(--blood);
       border: none;
-      padding: 14px 22px;
+      padding: 13px 20px;
       color: #fff;
       font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
-      transition: opacity 0.15s, background 0.15s;
     }
-    .code-btn:active { background: #600; opacity: 0.9; }
+    .code-btn:active {
+      background: #5a0000;
+    }
 
     .code-error {
-      margin-top: 14px;
+      margin-top: 12px;
       font-family: 'Cinzel', serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
       color: #ef4444;
       text-transform: uppercase;
-      opacity: 0;
-      transition: opacity 0.25s;
+      display: none;
     }
-    .code-error.show { opacity: 1; }
 
     /* ── Role reveal overlay ── */
     #reveal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(5,2,0,0.95);
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 2, 0, 0.96);
       z-index: 200;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.4s ease;
-      padding: 16px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
     }
-    #reveal-overlay.active { opacity: 1; pointer-events: all; }
+    #reveal-overlay.active {
+      display: flex;
+    }
 
     .reveal-card {
-      max-width: 480px; width: 100%;
+      max-width: 460px;
+      width: 100%;
       text-align: center;
-      transform: scale(0.92) translate3d(0, 20px, 0);
-      transition: transform 0.4s ease, opacity 0.4s ease;
-      opacity: 0;
+      background: #140702;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 30px 20px 34px;
+      box-shadow: 0 15px 45px rgba(0,0,0,0.9);
     }
-    #reveal-overlay.active .reveal-card { transform: scale(1) translate3d(0, 0, 0); opacity: 1; }
 
     .reveal-seal {
-      width: 95px; height: 95px; border-radius: 50%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      margin: 0 auto 20px;
-      border: 3px solid var(--gold);
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      border: 2px solid var(--gold);
     }
-    .reveal-emoji { font-size: 2.5rem; line-height: 1; }
+    .reveal-emoji {
+      font-size: 2.3rem;
+      line-height: 1;
+    }
 
-    .reveal-eyebrow { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.45em; color: rgba(201,168,76,0.6); text-transform: uppercase; margin-bottom: 6px; }
-    .reveal-name { font-family: 'Cinzel', serif; font-size: 1.05rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 4px; }
-    .reveal-realname { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.9rem; color: rgba(245,234,214,0.5); margin-bottom: 22px; }
+    .reveal-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
+      color: rgba(201,168,76,0.65);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .reveal-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      margin-bottom: 2px;
+    }
+    .reveal-realname {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: rgba(245,234,214,0.55);
+      margin-bottom: 18px;
+    }
 
-    .reveal-role-label { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.35em; color: rgba(201,168,76,0.6); text-transform: uppercase; margin-bottom: 4px; }
+    .reveal-role-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      color: rgba(201,168,76,0.65);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
     .reveal-role-name {
       font-family: 'Cinzel', serif;
-      font-size: 2.2rem; font-weight: 900;
-      letter-spacing: 0.04em;
-      margin-bottom: 18px;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      margin-bottom: 14px;
       line-height: 1.1;
     }
 
-    .reveal-divider { width: 50px; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); margin: 0 auto 18px; }
+    .reveal-divider {
+      width: 45px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 0 auto 16px;
+    }
 
     .reveal-description {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.02rem; line-height: 1.75;
-      color: rgba(245,234,214,0.85);
-      margin-bottom: 16px;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(245,234,214,0.9);
+      margin-bottom: 14px;
     }
 
     .reveal-secret {
-      font-family: 'IM Fell English', serif;
+      font-family: 'IM Fell English', Georgia, serif;
       font-style: italic;
-      font-size: 0.95rem;
-      color: rgba(201,168,76,0.75);
-      margin-bottom: 28px;
-      padding: 0 10px;
+      font-size: 0.92rem;
+      color: var(--gold-light);
+      margin-bottom: 24px;
+      padding: 0 8px;
     }
 
     .reveal-close {
-      background: none; border: 1px solid rgba(201,168,76,0.4);
-      color: rgba(201,168,76,0.8);
-      font-family: 'Cinzel', serif; font-size: 0.65rem;
-      letter-spacing: 0.25em; text-transform: uppercase;
-      padding: 12px 24px; cursor: pointer;
+      background: none;
+      border: 1px solid rgba(201,168,76,0.45);
+      color: rgba(201,168,76,0.85);
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 11px 22px;
+      cursor: pointer;
       border-radius: 2px;
-      transition: all 0.15s;
     }
-    .reveal-close:active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+    .reveal-close:active {
+      background: rgba(201,168,76,0.15);
+      color: var(--gold);
+    }
 
-    .footer-note { margin-top: 24px; font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: 0.35em; color: rgba(201,168,76,0.35); text-transform: uppercase; text-align: center; }
+    .footer-note {
+      margin-top: 22px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      color: rgba(201,168,76,0.4);
+      text-transform: uppercase;
+      text-align: center;
+    }
 
     @media (max-width: 600px) {
-      body { padding: 25px 10px 50px; }
-      .paper { padding: 42px 20px 50px; }
-      .crest-title { font-size: 1.6rem; }
+      body { padding: 16px 8px 45px; }
+      .paper { padding: 34px 18px 40px; }
+      .crest-title { font-size: 1.65rem; }
       .stamp-classified { display: none; }
       .sign-name { font-size: 1.45rem; }
-      .code-card { padding: 32px 18px 38px; }
-      .reveal-role-name { font-size: 1.85rem; }
+      .code-card { padding: 28px 14px 32px; }
+      .reveal-role-name { font-size: 1.7rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- Intro -->
-<div id="intro-screen">
-  <div class="seal">
-    <div class="seal-monogram">DL</div>
-    <div class="seal-text">Famiglia<br>Di Legno</div>
+  <!-- Helper banner shown only in Messenger / In-App browser -->
+  <div id="messenger-banner">
+    ⚠️ <strong>Messenger vindue:</strong> Tryk på <strong>···</strong> i hjørnet og vælg <em>"Åbn i Safari / ekstern browser"</em> for den optimale visning.
   </div>
-  <div class="intro-warning">Fortrolig · Riservato · Classified</div>
-</div>
 
-<!-- Smoke -->
-<div id="particles"></div>
+  <!-- The Letter -->
+  <div id="letter-wrap">
+    <div class="paper">
+      <div class="stamp-classified">Fortroligt dokument</div>
 
-<!-- Drips -->
-<div class="drips" id="drips"></div>
-
-<!-- Role reveal overlay -->
-<div id="reveal-overlay">
-  <div class="reveal-card" id="reveal-card">
-    <div class="reveal-seal" id="reveal-seal">
-      <div class="reveal-emoji" id="reveal-emoji"></div>
-    </div>
-    <div class="reveal-eyebrow">Din hemmelige identitet</div>
-    <div class="reveal-name" id="reveal-mafia-name"></div>
-    <div class="reveal-realname" id="reveal-real-name"></div>
-    <div class="reveal-role-label">Din rolle</div>
-    <div class="reveal-role-name" id="reveal-role"></div>
-    <div class="reveal-divider"></div>
-    <div class="reveal-description" id="reveal-desc"></div>
-    <div class="reveal-secret" id="reveal-secret"></div>
-    <button class="reveal-close" onclick="closeReveal()">✕ &nbsp; Luk og husk din ordre</button>
-  </div>
-</div>
-
-<!-- The Letter -->
-<div id="letter-wrap">
-  <div class="paper">
-    <span class="corner-ornament tl">❧</span>
-    <span class="corner-ornament tr">❧</span>
-    <span class="corner-ornament bl">❧</span>
-    <span class="corner-ornament br">❧</span>
-    <div class="stamp-classified">Fortroligt dokument</div>
-
-    <div class="ornament-top">
-      <div class="crest">
+      <!-- Crest & Seal -->
+      <div class="top-seal-wrap">
+        <div class="top-seal">
+          <div class="seal-monogram">DL</div>
+          <div class="seal-sub">Famiglia</div>
+        </div>
         <div class="crest-title">Di Legno</div>
         <div class="crest-sub">Famiglia · Lealtà · Potere</div>
+        <div class="ornament-line"><span class="ornament-diamond">✦ ✦ ✦</span></div>
       </div>
-      <div class="ornament-line"><span class="ornament-diamond">✦ ✦ ✦</span></div>
-    </div>
 
-    <div class="body-block">
-      <p class="salutation d1">Ciao, mia famiglia,</p>
+      <p class="salutation">Ciao, mia famiglia,</p>
 
-      <p class="para d2">
+      <p class="para">
         Der er blevet truffet en <strong>vigtig beslutning bag lukkede døre</strong> i familien Di Legno...
         Vi er under angreb, og der befinder sig en <strong>forræder iblandt os</strong>. Vores fjender ønsker at se vores imperium falde. Landet er ikke længere sikkert. Derfor mødes vi i <em>familiens safehouse på Skanderborgvej 86</em> nytårsaften kl. 17.30 til et vigtigt familiemøde.
       </p>
 
-      <p class="para d3">
+      <p class="para">
         Min mand og jeg har besluttet, at årets sidste aften skal tilbringes samlet under ét tag. For <strong>familien kommer altid først</strong>, og ingen starter et nyt år uden familiens velsignelse.
       </p>
 
-      <p class="para d4">
+      <p class="para">
         Vi forventer naturligvis, at alle møder op <strong>velklædte, med attitude og respekt</strong> for mafiafamiliens traditioner. Hvis ikke, bliver man fodret til byens hunde. Kun det skarpeste puds er velkommen ved familien Di Legnos festlige middagsbord.
       </p>
 
-      <div class="order-header d5">Aftenens Ordre</div>
+      <div class="order-header">Aftenens Ordre</div>
 
       <ul class="timeline">
-        <li class="timeline-item d6">
+        <li class="timeline-item">
           <div class="timeline-time">17.30 — Ankomst &amp; Velkomstdrink</div>
           <div class="timeline-desc">Ingen spørgsmål – træd blot ind, og <em>skål med familien</em>.</div>
         </li>
-        <li class="timeline-item d7">
+        <li class="timeline-item">
           <div class="timeline-time">Kongens Tale</div>
           <div class="timeline-desc">Hele familien samles og lytter. Opmærksomhed på landets tilstand er essentiel.</div>
         </li>
-        <li class="timeline-item d8">
+        <li class="timeline-item">
           <div class="timeline-time">Middagen</div>
           <div class="timeline-desc">Alle bidrager med noget til det store <strong>italienske familiemåltid</strong>. Slå jer gerne sammen i små alliancer, og lav noget lækkert. Intet mindre end <em>siciliansk cuisine</em> skal på bordet — til opklaringen af mordet på Don Christoforo Di Legno bror.</div>
         </li>
-        <li class="timeline-item d9">
+        <li class="timeline-item">
           <div class="timeline-time">Underholdning</div>
           <div class="timeline-desc">Vi kontakter hvert enkelt familiemedlem <em>privat</em>.</div>
         </li>
-        <li class="timeline-item d10">
+        <li class="timeline-item">
           <div class="timeline-time">Fyrværkeri</div>
           <div class="timeline-desc">Når mørket falder på, bevæger familien sig samlet ned til Ingerslev for at betragte nattens eksplosioner. Vi skal naturligvis sikre os, at <strong>vores territorium stadig er under vores kontrol</strong>.</div>
         </li>
-        <li class="timeline-item d11">
+        <li class="timeline-item">
           <div class="timeline-time">Midnat</div>
           <div class="timeline-desc">Vi skåler for endnu et år med <strong>magt, loyalitet og familie</strong>. Må vores fjender holde sig langt væk, og må imperiet Di Legno vokse sig stærkere i det nye år.</div>
         </li>
       </ul>
 
-      <div class="warning-box d12">
+      <div class="warning-box">
         <p class="warning-text">Tavshed er guld · Loyalitet er alt<br>Forræderi har konsekvenser</p>
       </div>
 
-      <div class="quote d13">
+      <div class="quote">
         <p class="quote-text">Keep your friends close,<br>but your enemies closer.</p>
       </div>
 
-      <div class="signature-block d14">
+      <div class="signature-block">
         <p class="sign-closing">Med kærlighed, respekt og en lille advarsel,<br>Jeres</p>
         <span class="sign-name">Dona Anna Sophia Di Legno 💋</span>
       </div>
 
-      <div class="bottom-seal d15">
+      <div class="bottom-seal">
         <div class="wax-seal"><span>DL</span><small>1926</small></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Kode-sektion -->
-<div id="code-section">
-  <div class="code-card">
-    <div class="code-eyebrow">Kun for familiemedlemmer</div>
-    <div class="code-heading">Din Hemmelige Ordre</div>
-    <div class="code-subtext">Du har modtaget en personlig kode fra Dona Anna Sophia.<br>Indtast den nedenfor for at åbne din hemmelighed.</div>
-    <div class="code-input-wrap">
-      <input class="code-input" id="codeInput" type="text" maxlength="12" placeholder="KODE" autocomplete="off" spellcheck="false" />
-      <button class="code-btn" onclick="checkCode()">Åbn ↗</button>
+  <!-- Kode-sektion -->
+  <div id="code-section">
+    <div class="code-card">
+      <div class="code-eyebrow">Kun for familiemedlemmer</div>
+      <div class="code-heading">Din Hemmelige Ordre</div>
+      <div class="code-subtext">Du har modtaget en personlig kode fra Dona Anna Sophia.<br>Indtast den nedenfor for at åbne din hemmelighed.</div>
+      <div class="code-input-wrap">
+        <input class="code-input" id="codeInput" type="text" maxlength="12" placeholder="KODE" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" />
+        <button class="code-btn" onclick="checkCode()">Åbn ↗</button>
+      </div>
+      <div class="code-error" id="codeError">Forkert kode — prøv igen, forræder.</div>
     </div>
-    <div class="code-error" id="codeError">Forkert kode — prøv igen, forræder.</div>
   </div>
-</div>
 
-<div class="footer-note">Documento riservato — Famiglia Di Legno — MMXXVI</div>
+  <div class="footer-note">Documento riservato — Famiglia Di Legno — MMXXVI</div>
+
+  <!-- Role reveal modal -->
+  <div id="reveal-overlay">
+    <div class="reveal-card">
+      <div class="reveal-seal" id="reveal-seal">
+        <div class="reveal-emoji" id="reveal-emoji"></div>
+      </div>
+      <div class="reveal-eyebrow">Din hemmelige identitet</div>
+      <div class="reveal-name" id="reveal-mafia-name"></div>
+      <div class="reveal-realname" id="reveal-real-name"></div>
+      <div class="reveal-role-label">Din rolle</div>
+      <div class="reveal-role-name" id="reveal-role"></div>
+      <div class="reveal-divider"></div>
+      <div class="reveal-description" id="reveal-desc"></div>
+      <div class="reveal-secret" id="reveal-secret"></div>
+      <button class="reveal-close" onclick="closeReveal()">✕ &nbsp; Luk og husk din ordre</button>
+    </div>
+  </div>
 
 <script>
+  // Detect Messenger / Instagram in-app browser
+  (function detectInApp() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isMessenger = /FBAN|FBAV|FB_IAB|Messenger|Instagram/i.test(ua);
+    if (isMessenger) {
+      const banner = document.getElementById('messenger-banner');
+      if (banner) banner.style.display = 'block';
+    }
+  })();
+
   // ══════════════════════════════════════
   //  ROLLER & KODER
   // ══════════════════════════════════════
@@ -501,7 +716,7 @@
       mafiaName: 'Ascanio Di Legno',
       emoji: '🗡️',
       role: 'Forræderen',
-      sealBg: 'radial-gradient(circle at 35% 35%, #444, #111)',
+      sealBg: 'radial-gradient(circle at 35% 35%, #555, #111)',
       color: '#f87171',
       description: 'Du arbejder hemmeligt for familiens fjender. Hver nat peger du på én person, som bliver elimineret. Om dagen skal du blande dig ind og snakke dig fra det — ingen må finde ud af det er dig.',
       secret: 'Du er ulven i fåreklæder. Bliv ikke afsløret.'
@@ -594,13 +809,12 @@
     const errEl = document.getElementById('codeError');
 
     if (!member) {
-      errEl.classList.add('show');
-      document.getElementById('codeInput').value = '';
-      setTimeout(() => errEl.classList.remove('show'), 3000);
+      errEl.style.display = 'block';
+      setTimeout(() => { errEl.style.display = 'none'; }, 3000);
       return;
     }
 
-    // populate overlay
+    errEl.style.display = 'none';
     document.getElementById('reveal-emoji').textContent = member.emoji;
     document.getElementById('reveal-seal').style.background = member.sealBg;
     document.getElementById('reveal-mafia-name').textContent = member.mafiaName;
@@ -610,56 +824,21 @@
     document.getElementById('reveal-desc').textContent = member.description;
     document.getElementById('reveal-secret').textContent = '« ' + member.secret + ' »';
 
-    const overlay = document.getElementById('reveal-overlay');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    document.getElementById('reveal-overlay').classList.add('active');
   }
 
   function closeReveal() {
     document.getElementById('reveal-overlay').classList.remove('active');
-    document.body.style.overflow = '';
     document.getElementById('codeInput').value = '';
   }
 
-  // Enter key
   document.getElementById('codeInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') checkCode();
   });
 
-  // Click outside card to close
   document.getElementById('reveal-overlay').addEventListener('click', function(e) {
     if (e.target === this) closeReveal();
   });
-
-  // ── Smoke particles — 5 subtle embers ──
-  const pc = document.getElementById('particles');
-  for (let i = 0; i < 5; i++) {
-    const el = document.createElement('div');
-    el.className = 'smoke';
-    el.style.cssText = `left:${10 + Math.random()*80}%;animation-duration:${10+Math.random()*8}s;animation-delay:-${Math.random()*10}s;--dx:${(Math.random()-0.5)*60}px`;
-    pc.appendChild(el);
-  }
-
-  // ── Drips — lightweight ──
-  const dripsEl = document.getElementById('drips');
-  [8, 22, 36, 50, 64, 78, 92].forEach(pos => {
-    const d = document.createElement('div');
-    d.className = 'drip';
-    const dur = (3.5 + Math.random()*3).toFixed(1);
-    const del = (Math.random()*4).toFixed(1);
-    d.style.cssText = `left:${pos}%;animation-duration:${dur}s;animation-delay:${del}s;width:${3+Math.random()*3}px;`;
-    dripsEl.appendChild(d);
-  });
-
-  // ── Skip & remove intro ──
-  const introEl = document.getElementById('intro-screen');
-  function dismissIntro() {
-    introEl.style.transition = 'opacity 0.35s ease';
-    introEl.style.opacity = '0';
-    setTimeout(() => { introEl.style.display = 'none'; }, 380);
-  }
-  introEl.addEventListener('click', dismissIntro);
-  setTimeout(() => { if (introEl.style.display !== 'none') introEl.style.display = 'none'; }, 2600);
 </script>
 </body>
 </html>
