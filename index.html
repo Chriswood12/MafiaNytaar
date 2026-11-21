@@ -3,706 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#090401" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Famiglia Di Legno — Nytårsaften på Skanderborgvej 86" />
+  <meta property="og:description" content="Et fortroligt familiemøde for Familien Di Legno. Læs brevet, udforsk slægtstræet, og indtast din hemmelige kode." />
   <title>Familien Di Legno — Nytårsaften</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --gold: #c9a84c;
-      --gold-light: #f5e3a9;
-      --blood: #8b0000;
-      --blood-glow: #b91c1c;
-      --ink: #1a0a00;
-      --parchment: #f6eedb;
-      --bg: #090401;
-    }
-
-    body {
-      background-color: var(--bg);
-      background-image: radial-gradient(circle at 50% 20%, #1e0902 0%, #090401 80%);
-      color: #2a1500;
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      padding: 24px 14px 60px;
-      -webkit-font-smoothing: antialiased;
-      -webkit-tap-highlight-color: transparent;
-      overflow-x: hidden;
-    }
-
-    /* ── Cinematic Stamp Intro (Auto-removes, GPU only) ── */
-    #intro-screen {
-      position: fixed;
-      inset: 0;
-      background: #090401;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      cursor: pointer;
-      animation: intro-fade-out 0.6s cubic-bezier(0.4, 0, 0.2, 1) 1.9s forwards;
-      will-change: opacity;
-    }
-    @keyframes intro-fade-out {
-      to { opacity: 0; visibility: hidden; pointer-events: none; }
-    }
-
-    .intro-seal {
-      width: 145px;
-      height: 145px;
-      border-radius: 50%;
-      border: 3px solid var(--gold);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: radial-gradient(circle at 35% 35%, #500000, #140000);
-      box-shadow: 0 0 40px rgba(201,168,76,0.35);
-      animation: seal-stamp-in 0.5s cubic-bezier(0.17, 0.89, 0.32, 1.25) 0.15s both;
-      will-change: transform, opacity;
-    }
-    @keyframes seal-stamp-in {
-      0%   { transform: scale(2.8) rotate(-15deg); opacity: 0; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-    .intro-monogram {
-      font-family: 'Cinzel', serif;
-      font-size: 2.3rem;
-      font-weight: 900;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .intro-seal-text {
-      font-family: 'Cinzel', serif;
-      color: var(--gold);
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      text-align: center;
-      line-height: 1.5;
-      margin-top: 4px;
-    }
-    .intro-warning {
-      margin-top: 22px;
-      font-family: 'Cinzel', serif;
-      color: var(--blood-glow);
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      animation: flicker 1.2s ease-in-out infinite;
-    }
-    @keyframes flicker {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .intro-skip-hint {
-      margin-top: 14px;
-      font-family: 'Cinzel', serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      color: rgba(201,168,76,0.4);
-      text-transform: uppercase;
-    }
-
-    /* ── Messenger / In-App Helper Banner ── */
-    #messenger-banner {
-      display: none;
-      max-width: 760px;
-      margin: 0 auto 16px;
-      background: rgba(139, 0, 0, 0.25);
-      border: 1px solid rgba(201, 168, 76, 0.5);
-      border-radius: 6px;
-      padding: 10px 14px;
-      color: var(--gold-light);
-      font-family: 'Cinzel', serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.05em;
-      text-align: center;
-      line-height: 1.4;
-    }
-    #messenger-banner strong { color: #fff; }
-
-    /* ── Main Letter Wrap ── */
-    #letter-wrap {
-      max-width: 760px;
-      margin: 0 auto;
-      animation: letter-rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
-      will-change: transform, opacity;
-    }
-    @keyframes letter-rise-in {
-      from { opacity: 0; transform: translate3d(0, 35px, 0); }
-      to   { opacity: 1; transform: translate3d(0, 0, 0); }
-    }
-
-    /* ── Parchment Paper ── */
-    .paper {
-      background-color: var(--parchment);
-      background-image: linear-gradient(175deg, #fbf4e4 0%, #f1e2c4 100%);
-      border: 2px solid var(--gold);
-      border-radius: 4px;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.85);
-      padding: 46px 32px 52px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* ── Blood Drips on Letter Header (100% GPU transform) ── */
-    .paper-drips {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 48px;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .paper-drip {
-      position: absolute;
-      top: 0;
-      width: 4px;
-      height: 46px;
-      background: linear-gradient(to bottom, var(--blood), rgba(139,0,0,0.1) 85%, transparent);
-      border-radius: 0 0 4px 4px;
-      transform-origin: top;
-      animation: drip-pulse 4s ease-in-out infinite;
-      will-change: transform;
-    }
-    @keyframes drip-pulse {
-      0%, 100% { transform: scaleY(0.7); }
-      50%      { transform: scaleY(1.05); }
-    }
-
-    /* ── Corner Flourishes ── */
-    .corner-ornament {
-      position: absolute;
-      font-size: 1.25rem;
-      color: var(--gold);
-      opacity: 0.35;
-      pointer-events: none;
-    }
-    .corner-ornament.tl { top: 10px; left: 14px; }
-    .corner-ornament.tr { top: 10px; right: 14px; transform: scaleX(-1); }
-    .corner-ornament.bl { bottom: 10px; left: 14px; transform: scaleY(-1); }
-    .corner-ornament.br { bottom: 10px; right: 14px; transform: scale(-1,-1); }
-
-    /* ── Top Crest & Seal ── */
-    .top-seal-wrap {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .top-seal {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #4a0202, #180000);
-      border: 3px solid var(--gold);
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
-      margin-bottom: 14px;
-      animation: seal-pulse 3s ease-in-out infinite;
-    }
-    @keyframes seal-pulse {
-      0%, 100% { transform: scale(1); }
-      50%      { transform: scale(1.04); }
-    }
-    .seal-monogram {
-      font-family: 'Cinzel', serif;
-      font-size: 1.85rem;
-      font-weight: 900;
-      color: var(--gold);
-      line-height: 1;
-    }
-    .seal-sub {
-      font-family: 'Cinzel', serif;
-      color: var(--gold);
-      font-size: 0.5rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      margin-top: 3px;
-    }
-
-    .crest-title {
-      font-family: 'Cinzel', serif;
-      font-size: 2.1rem;
-      font-weight: 900;
-      color: var(--blood);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      line-height: 1.1;
-    }
-    .crest-sub {
-      font-family: 'Cinzel', serif;
-      font-size: 0.65rem;
-      color: #795713;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      margin-top: 4px;
-    }
-
-    .ornament-line {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: center;
-      margin: 12px 0 20px;
-    }
-    .ornament-line::before, .ornament-line::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-    }
-    .ornament-diamond {
-      color: var(--blood);
-      font-size: 0.65rem;
-      letter-spacing: 0.4em;
-    }
-
-    /* ── Stamp ── */
-    .stamp-classified {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      border: 2px solid var(--blood);
-      color: var(--blood);
-      font-family: 'Cinzel', serif;
-      font-size: 0.52rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 3px 7px;
-      transform: rotate(8deg);
-      opacity: 0.75;
-    }
-
-    /* ── Salutation & Paragraphs ── */
-    .salutation {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-style: italic;
-      font-size: 1.45rem;
-      color: var(--ink);
-      margin-bottom: 18px;
-    }
-
-    .para {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: #271404;
-      margin-bottom: 16px;
-      text-align: justify;
-    }
-    .para strong {
-      color: var(--blood);
-      font-weight: 700;
-    }
-    .para em {
-      font-style: italic;
-    }
-
-    /* ── Timeline Section ── */
-    .order-header {
-      font-family: 'Cinzel', serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.3em;
-      color: var(--blood);
-      text-transform: uppercase;
-      text-align: center;
-      margin: 28px 0 16px;
-    }
-    .order-header::before, .order-header::after {
-      content: '✦';
-      margin: 0 8px;
-      color: var(--gold);
-      font-size: 0.65rem;
-    }
-
-    .timeline {
-      list-style: none;
-      border-left: 2px solid var(--gold);
-      margin-left: 10px;
-      margin-bottom: 24px;
-    }
-    .timeline-item {
-      position: relative;
-      padding: 8px 0 8px 20px;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -6px;
-      top: 14px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--blood);
-      border: 2px solid var(--gold);
-    }
-    .timeline-time {
-      font-family: 'Cinzel', serif;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #8c6008;
-      letter-spacing: 0.06em;
-    }
-    .timeline-desc {
-      font-size: 0.98rem;
-      color: #271404;
-      line-height: 1.6;
-      margin-top: 2px;
-    }
-
-    /* ── Warning & Quote ── */
-    .warning-box {
-      margin: 24px 0;
-      padding: 14px 18px;
-      border: 1px solid var(--blood);
-      border-left: 4px solid var(--blood);
-      background: rgba(139,0,0,0.06);
-      position: relative;
-    }
-    .warning-box::before {
-      content: '⚠';
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #f8f1de;
-      padding: 0 6px;
-      color: var(--blood);
-      font-size: 0.95rem;
-    }
-    .warning-text {
-      font-family: 'Cinzel', serif;
-      font-size: 0.74rem;
-      letter-spacing: 0.16em;
-      color: var(--blood);
-      text-align: center;
-      text-transform: uppercase;
-      line-height: 1.6;
-    }
-
-    .quote {
-      text-align: center;
-      margin: 26px 0;
-      padding: 0 10px;
-    }
-    .quote-text {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-style: italic;
-      font-size: 1.25rem;
-      color: var(--ink);
-      line-height: 1.5;
-    }
-    .quote-text::before { content: '\201C'; }
-    .quote-text::after  { content: '\201D'; }
-
-    /* ── Signature ── */
-    .signature-block {
-      margin-top: 32px;
-      text-align: right;
-    }
-    .sign-closing {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 0.95rem;
-      color: #271404;
-      line-height: 1.6;
-      font-style: italic;
-    }
-    .sign-name {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-size: 1.75rem;
-      font-style: italic;
-      color: var(--blood);
-      margin-top: 4px;
-      display: block;
-    }
-
-    /* ── Bottom Wax Seal ── */
-    .bottom-seal {
-      text-align: center;
-      margin-top: 26px;
-    }
-    .wax-seal {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 78px;
-      height: 78px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #9b111e, #550000);
-      box-shadow: 0 3px 12px rgba(139,0,0,0.45);
-      animation: wax-seal-glow 2.5s ease-in-out infinite;
-    }
-    @keyframes wax-seal-glow {
-      0%, 100% { transform: scale(1); }
-      50%      { transform: scale(1.05); }
-    }
-    .wax-seal span {
-      font-family: 'Cinzel', serif;
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: #fff;
-    }
-    .wax-seal small {
-      font-family: 'Cinzel', serif;
-      font-size: 0.35rem;
-      color: rgba(255,255,255,0.75);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-    }
-
-    /* ════════════════════════════════
-       KODE-SEKTION
-    ════════════════════════════════ */
-    #code-section {
-      max-width: 760px;
-      margin: 30px auto 0;
-      animation: letter-rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.7s both;
-    }
-
-    .code-card {
-      background: #110501;
-      border: 1px solid rgba(201,168,76,0.4);
-      border-top: 2px solid var(--gold);
-      border-radius: 4px;
-      padding: 34px 22px 38px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    }
-
-    .code-eyebrow {
-      font-family: 'Cinzel', serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.35em;
-      color: rgba(201,168,76,0.65);
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    .code-heading {
-      font-family: 'Cinzel', serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.06em;
-      margin-bottom: 6px;
-    }
-    .code-subtext {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-style: italic;
-      color: rgba(245,234,214,0.65);
-      font-size: 0.95rem;
-      line-height: 1.45;
-      margin-bottom: 22px;
-    }
-
-    .code-input-wrap {
-      display: flex;
-      max-width: 360px;
-      margin: 0 auto;
-      border: 1px solid rgba(201,168,76,0.5);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .code-input {
-      flex: 1;
-      background: rgba(255,255,255,0.06);
-      border: none;
-      outline: none;
-      padding: 13px 16px;
-      font-family: 'Cinzel', serif;
-      font-size: 16px; /* Prevents auto-zoom on iOS */
-      letter-spacing: 0.18em;
-      color: var(--gold-light);
-      text-transform: uppercase;
-      caret-color: var(--gold);
-    }
-    .code-input::placeholder {
-      color: rgba(201,168,76,0.35);
-      letter-spacing: 0.15em;
-      font-size: 13px;
-    }
-    .code-btn {
-      background: var(--blood);
-      border: none;
-      padding: 13px 20px;
-      color: #fff;
-      font-family: 'Cinzel', serif;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-    .code-btn:active {
-      background: #5a0000;
-    }
-
-    .code-error {
-      margin-top: 12px;
-      font-family: 'Cinzel', serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      color: #ef4444;
-      text-transform: uppercase;
-      display: none;
-    }
-
-    /* ── Role reveal overlay ── */
-    #reveal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(7, 2, 0, 0.96);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    #reveal-overlay.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    .reveal-card {
-      max-width: 460px;
-      width: 100%;
-      text-align: center;
-      background: #140702;
-      border: 1px solid var(--gold);
-      border-radius: 4px;
-      padding: 30px 20px 34px;
-      box-shadow: 0 15px 45px rgba(0,0,0,0.9);
-      animation: modal-pop 0.35s cubic-bezier(0.17, 0.89, 0.32, 1.2) both;
-    }
-    @keyframes modal-pop {
-      from { transform: scale(0.85); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
-    }
-
-    .reveal-seal {
-      width: 85px;
-      height: 85px;
-      border-radius: 50%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      border: 2px solid var(--gold);
-      animation: seal-pulse 2s ease-in-out infinite;
-    }
-    .reveal-emoji {
-      font-size: 2.3rem;
-      line-height: 1;
-    }
-
-    .reveal-eyebrow {
-      font-family: 'Cinzel', serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.4em;
-      color: rgba(201,168,76,0.65);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .reveal-name {
-      font-family: 'Cinzel', serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 0.06em;
-      margin-bottom: 2px;
-    }
-    .reveal-realname {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-style: italic;
-      font-size: 0.88rem;
-      color: rgba(245,234,214,0.55);
-      margin-bottom: 18px;
-    }
-
-    .reveal-role-label {
-      font-family: 'Cinzel', serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.3em;
-      color: rgba(201,168,76,0.65);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .reveal-role-name {
-      font-family: 'Cinzel', serif;
-      font-size: 2rem;
-      font-weight: 900;
-      letter-spacing: 0.03em;
-      margin-bottom: 14px;
-      line-height: 1.1;
-    }
-
-    .reveal-divider {
-      width: 45px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-      margin: 0 auto 16px;
-    }
-
-    .reveal-description {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 1rem;
-      line-height: 1.7;
-      color: rgba(245,234,214,0.9);
-      margin-bottom: 14px;
-    }
-
-    .reveal-secret {
-      font-family: 'IM Fell English', Georgia, serif;
-      font-style: italic;
-      font-size: 0.92rem;
-      color: var(--gold-light);
-      margin-bottom: 24px;
-      padding: 0 8px;
-    }
-
-    .reveal-close {
-      background: none;
-      border: 1px solid rgba(201,168,76,0.45);
-      color: rgba(201,168,76,0.85);
-      font-family: 'Cinzel', serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      padding: 11px 22px;
-      cursor: pointer;
-      border-radius: 2px;
-    }
-    .reveal-close:active {
-      background: rgba(201,168,76,0.15);
-      color: var(--gold);
-    }
-
-    .footer-note {
-      margin-top: 22px;
-      font-family: 'Cinzel', serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.3em;
-      color: rgba(201,168,76,0.4);
-      text-transform: uppercase;
-      text-align: center;
-    }
-
-    @media (max-width: 600px) {
-      body { padding: 16px 8px 45px; }
-      .paper { padding: 34px 18px 40px; }
-      .crest-title { font-size: 1.65rem; }
-      .stamp-classified { display: none; }
-      .sign-name { font-size: 1.45rem; }
-      .code-card { padding: 28px 14px 32px; }
-      .reveal-role-name { font-size: 1.7rem; }
-    }
-  </style>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%237a0000' stroke='%23c9a84c' stroke-width='3'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='24' fill='%23c9a84c'%3EDL%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IM+Fell+English:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
@@ -717,15 +27,23 @@
   </div>
 
   <!-- Helper banner shown only in Messenger / In-App browser -->
-  <div id="messenger-banner">
+  <div id="messenger-banner" role="region" aria-label="Browser-tip">
     ⚠️ <strong>Messenger vindue:</strong> Tryk på <strong>···</strong> i hjørnet og vælg <em>"Åbn i Safari / ekstern browser"</em> for den optimale visning.
+    <button type="button" class="messenger-banner-close" id="messenger-banner-close" aria-label="Luk advarsel">✕</button>
   </div>
 
+  <!-- Inline Quick-Jump Bar -->
+  <nav class="quick-nav" aria-label="Hurtig navigation">
+    <a class="quick-nav-link" href="#letter-wrap">📜 Brevet</a>
+    <a class="quick-nav-link" href="#tree-section">🌳 Slægtstræ</a>
+    <a class="quick-nav-link" href="#code-section">🔐 Hemmelig Kode</a>
+  </nav>
+
   <!-- The Letter -->
-  <div id="letter-wrap">
+  <main id="letter-wrap">
     <div class="paper">
       <!-- Blood drips attached to the paper header -->
-      <div class="paper-drips">
+      <div class="paper-drips" aria-hidden="true">
         <div class="paper-drip" style="left: 10%; animation-delay: 0s;"></div>
         <div class="paper-drip" style="left: 28%; animation-delay: 1.2s; height: 38px;"></div>
         <div class="paper-drip" style="left: 48%; animation-delay: 2.1s; height: 44px;"></div>
@@ -734,10 +52,10 @@
       </div>
 
       <!-- Corner flourishes -->
-      <span class="corner-ornament tl">❧</span>
-      <span class="corner-ornament tr">❧</span>
-      <span class="corner-ornament bl">❧</span>
-      <span class="corner-ornament br">❧</span>
+      <span class="corner-ornament tl" aria-hidden="true">❧</span>
+      <span class="corner-ornament tr" aria-hidden="true">❧</span>
+      <span class="corner-ornament bl" aria-hidden="true">❧</span>
+      <span class="corner-ornament br" aria-hidden="true">❧</span>
 
       <div class="stamp-classified">Fortroligt dokument</div>
 
@@ -770,27 +88,27 @@
       <div class="order-header">Aftenens Ordre</div>
 
       <ul class="timeline">
-        <li class="timeline-item">
+        <li class="timeline-item reveal-on-scroll">
           <div class="timeline-time">17.30 — Ankomst &amp; Velkomstdrink</div>
           <div class="timeline-desc">Ingen spørgsmål – træd blot ind, og <em>skål med familien</em>.</div>
         </li>
-        <li class="timeline-item">
+        <li class="timeline-item reveal-on-scroll">
           <div class="timeline-time">Kongens Tale</div>
           <div class="timeline-desc">Hele familien samles og lytter. Opmærksomhed på landets tilstand er essentiel.</div>
         </li>
-        <li class="timeline-item">
+        <li class="timeline-item reveal-on-scroll">
           <div class="timeline-time">Middagen</div>
           <div class="timeline-desc">Alle bidrager med noget til det store <strong>italienske familiemåltid</strong>. Slå jer gerne sammen i små alliancer, og lav noget lækkert. Intet mindre end <em>siciliansk cuisine</em> skal på bordet — til opklaringen af mordet på Don Christoforo Di Legno bror.</div>
         </li>
-        <li class="timeline-item">
+        <li class="timeline-item reveal-on-scroll">
           <div class="timeline-time">Underholdning</div>
           <div class="timeline-desc">Vi kontakter hvert enkelt familiemedlem <em>privat</em>.</div>
         </li>
-        <li class="timeline-item">
+        <li class="timeline-item reveal-on-scroll">
           <div class="timeline-time">Fyrværkeri</div>
           <div class="timeline-desc">Når mørket falder på, bevæger familien sig samlet ned til Ingerslev for at betragte nattens eksplosioner. Vi skal naturligvis sikre os, at <strong>vores territorium stadig er under vores kontrol</strong>.</div>
         </li>
-        <li class="timeline-item">
+        <li class="timeline-item reveal-on-scroll">
           <div class="timeline-time">Midnat</div>
           <div class="timeline-desc">Vi skåler for endnu et år med <strong>magt, loyalitet og familie</strong>. Må vores fjender holde sig langt væk, og må imperiet Di Legno vokse sig stærkere i det nye år.</div>
         </li>
@@ -813,26 +131,67 @@
         <div class="wax-seal"><span>DL</span><small>1926</small></div>
       </div>
     </div>
-  </div>
+  </main>
+
+  <!-- Slægtstræ-sektion -->
+  <section id="tree-section" class="reveal-on-scroll" aria-labelledby="treeHeading">
+    <div class="tree-card">
+      <div class="tree-header">
+        <div class="tree-eyebrow">Slægtens Arkiv</div>
+        <h2 class="tree-heading" id="treeHeading">Famiglia Di Legno — Slægtstræ</h2>
+        <p class="tree-subtext" id="treeSubtitle">Blod er tykkere end vand — men selv i familien lurer forræderi</p>
+        <div class="tree-draft-badge" id="treeDraftBadge">Midlertidigt udkast — endelige familierelationer indsættes snart</div>
+      </div>
+
+      <div class="tree-controls">
+        <div class="tree-view-toggle" role="group" aria-label="Visning">
+          <button type="button" class="tree-tab-btn active" id="viewTreeBtn" aria-pressed="true">🌳 Slægtstræ</button>
+          <button type="button" class="tree-tab-btn" id="viewListBtn" aria-pressed="false">📋 Oversigt</button>
+        </div>
+        <button type="button" class="tree-intrigue-btn" id="toggleIntriguesBtn" aria-pressed="false">⚔️ Vis alliancer &amp; rivaler</button>
+      </div>
+
+      <div class="tree-hint-bar">Tryk på et familiemedlem for at se forbindelser og baggrund</div>
+      <div class="tree-scroll-hint">← Træk sidelæns for at se hele træet →</div>
+
+      <div class="tree-viewport" id="treeViewport">
+        <div class="tree-canvas" id="treeCanvas">
+          <svg class="tree-lines" id="treeLines" aria-hidden="true"></svg>
+          <div class="tree-generations" id="treeGenerations"></div>
+        </div>
+      </div>
+
+      <div class="tree-legend" aria-label="Forklaring på linjer">
+        <span class="legend-item"><span class="legend-line parent"></span> Forældre / Barn</span>
+        <span class="legend-item"><span class="legend-line sibling"></span> Søskende</span>
+        <span class="legend-item"><span class="legend-line alliance"></span> Alliance</span>
+        <span class="legend-item"><span class="legend-line rival"></span> Rival</span>
+      </div>
+
+      <div class="tree-list-view" id="treeListView"></div>
+
+      <div class="tree-detail" id="treeDetail" aria-live="polite"></div>
+    </div>
+  </section>
 
   <!-- Kode-sektion -->
-  <div id="code-section">
+  <section id="code-section" class="reveal-on-scroll" aria-labelledby="codeHeading">
     <div class="code-card">
       <div class="code-eyebrow">Kun for familiemedlemmer</div>
-      <div class="code-heading">Din Hemmelige Ordre</div>
-      <div class="code-subtext">Du har modtaget en personlig kode fra Dona Anna Sophia.<br>Indtast den nedenfor for at åbne din hemmelighed.</div>
+      <h2 class="code-heading" id="codeHeading">Din Hemmelige Ordre</h2>
+      <p class="code-subtext">Du har modtaget en personlig kode fra Dona Anna Sophia.<br>Indtast den nedenfor for at åbne din hemmelighed.</p>
       <div class="code-input-wrap">
         <input class="code-input" id="codeInput" type="text" maxlength="12" placeholder="KODE" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" />
-        <button class="code-btn" onclick="checkCode()">Åbn ↗</button>
+        <button type="button" class="code-btn" id="codeSubmitBtn">Åbn ↗</button>
       </div>
       <div class="code-error" id="codeError">Forkert kode — prøv igen, forræder.</div>
     </div>
-  </div>
+  </section>
 
-  <div class="footer-note">Documento riservato — Famiglia Di Legno — MMXXVI</div>
+  <footer class="footer-note">Documento riservato — Famiglia Di Legno — MMXXVI</footer>
 
   <!-- Role reveal modal -->
-  <div id="reveal-overlay">
+  <div id="reveal-overlay" role="dialog" aria-modal="true" aria-labelledby="reveal-mafia-name">
     <div class="reveal-card">
       <div class="reveal-seal" id="reveal-seal">
         <div class="reveal-emoji" id="reveal-emoji"></div>
@@ -845,175 +204,11 @@
       <div class="reveal-divider"></div>
       <div class="reveal-description" id="reveal-desc"></div>
       <div class="reveal-secret" id="reveal-secret"></div>
-      <button class="reveal-close" onclick="closeReveal()">✕ &nbsp; Luk og husk din ordre</button>
+      <button type="button" class="reveal-close" id="revealCloseBtn">✕ &nbsp; Luk og husk din ordre</button>
     </div>
   </div>
 
-<script>
-  // Intro dismiss logic (smooth & cleans up completely)
-  const intro = document.getElementById('intro-screen');
-  function removeIntro() {
-    intro.style.transition = 'opacity 0.35s ease';
-    intro.style.opacity = '0';
-    setTimeout(() => { intro.style.display = 'none'; }, 380);
-  }
-  intro.addEventListener('click', removeIntro);
-  setTimeout(() => { if (intro.style.display !== 'none') intro.style.display = 'none'; }, 2600);
-
-  // Detect Messenger / Instagram in-app browser
-  (function detectInApp() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    const isMessenger = /FBAN|FBAV|FB_IAB|Messenger|Instagram/i.test(ua);
-    if (isMessenger) {
-      const banner = document.getElementById('messenger-banner');
-      if (banner) banner.style.display = 'block';
-    }
-  })();
-
-  // ══════════════════════════════════════
-  //  ROLLER & KODER
-  // ══════════════════════════════════════
-  const members = {
-    'CAPO01': {
-      realName: 'Christopher',
-      mafiaName: 'Don Christofo Di Legno',
-      emoji: '👑',
-      role: 'Don — Spillets Leder',
-      sealBg: 'radial-gradient(circle at 35% 35%, #c9a84c, #7a5c10)',
-      color: '#c9a84c',
-      description: 'Du er Donen og aftenens Gamemaster. Du kender alle spillernes roller. Det er dig der styrer spillet — du dræber ikke og kan ikke dræbes.',
-      secret: 'Du ved alt. Hold orden i familien.'
-    },
-    'LUPO13': {
-      realName: 'Aske',
-      mafiaName: 'Ascanio Di Legno',
-      emoji: '🗡️',
-      role: 'Forræderen',
-      sealBg: 'radial-gradient(circle at 35% 35%, #555, #111)',
-      color: '#f87171',
-      description: 'Du arbejder hemmeligt for familiens fjender. Hver nat peger du på én person, som bliver elimineret. Om dagen skal du blande dig ind og snakke dig fra det — ingen må finde ud af det er dig.',
-      secret: 'Du er ulven i fåreklæder. Bliv ikke afsløret.'
-    },
-    'OCCHIO': {
-      realName: 'Freddy',
-      mafiaName: 'Fredericca Di Legno',
-      emoji: '🔍',
-      role: 'Efterforskeren',
-      sealBg: 'radial-gradient(circle at 35% 35%, #6a0dad, #2a004a)',
-      color: '#c084fc',
-      description: 'Hver nat peger du i hemmelighed på én person. Donen fortæller dig om de er uskyldig eller forræder. Brug den information til at afsløre forræderen — men vær forsigtig med hvem du stoler på.',
-      secret: 'Du har øjne overalt. Brug dem klogt.'
-    },
-    'DOLCE9': {
-      realName: 'Anne',
-      mafiaName: 'Donna Anna Sophia Di Legno',
-      emoji: '🛡️',
-      role: 'Livvagten',
-      sealBg: 'radial-gradient(circle at 35% 35%, #0a7a3a, #022a12)',
-      color: '#4ade80',
-      description: 'Hver nat vælger du én person du vil beskytte — også dig selv. Hvis forræderen angriber den person, overlever de. Du ved ikke hvem forræderen er, så gæt klogt.',
-      secret: 'Din beskyttelse kan redde familien. Vælg rigtigt.'
-    },
-    'BRUJA7': {
-      realName: 'Willy',
-      mafiaName: 'Guglielmo Di Legno',
-      emoji: '☠️',
-      role: 'Giftblanderen',
-      sealBg: 'radial-gradient(circle at 35% 35%, #7a3a00, #2a1000)',
-      color: '#fb923c',
-      description: 'Du har to kort — og hvert kan kun bruges én gang. Ét antidot: redder forræderens offer den nat. Ét gift: eliminerer en valgfri spiller samme nat. Brug dem på det rigtige tidspunkt.',
-      secret: 'To chancer. Spild dem ikke.'
-    },
-    'FRECCIA': {
-      realName: 'Jacob',
-      mafiaName: 'Giacomo Di Legno',
-      emoji: '🔫',
-      role: 'Snigskytten',
-      sealBg: 'radial-gradient(circle at 35% 35%, #5a3a00, #1a0a00)',
-      color: '#fbbf24',
-      description: 'Du har ingen særlig evne om natten. Men hvis du bliver elimineret — uanset årsag — må du med det samme pege på én anden spiller, som også dør. Fjenden betaler en pris for at tage dig ud.',
-      secret: 'Selv i døden skyder du tilbage.'
-    },
-    'LUMACA': {
-      realName: 'Tilde',
-      mafiaName: 'Matilda Di Legno',
-      emoji: '👔',
-      role: 'Familiemedlem',
-      sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
-      color: '#94a3b8',
-      description: 'Du er et loyalt familiemedlem uden særlige evner. Din magt ligger i din stemme: hver dag stemmer familien om hvem der er forræderen. Observer, lyt og stem rigtigt.',
-      secret: 'Familien stoler på dig. Svigt dem ikke.'
-    },
-    'FIAMMA': {
-      realName: 'Vanni',
-      mafiaName: 'Vannissa Di Legno',
-      emoji: '👔',
-      role: 'Familiemedlem',
-      sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
-      color: '#94a3b8',
-      description: 'Du er et loyalt familiemedlem uden særlige evner. Din magt ligger i din stemme: hver dag stemmer familien om hvem der er forræderen. Observer, lyt og stem rigtigt.',
-      secret: 'Familien stoler på dig. Svigt dem ikke.'
-    },
-    'PIETRA': {
-      realName: 'Sebastian',
-      mafiaName: 'Sebastiano Di Legno',
-      emoji: '👔',
-      role: 'Familiemedlem',
-      sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
-      color: '#94a3b8',
-      description: 'Du er et loyalt familiemedlem uden særlige evner. Din magt ligger i din stemme: hver dag stemmer familien om hvem der er forræderen. Observer, lyt og stem rigtigt.',
-      secret: 'Familien stoler på dig. Svigt dem ikke.'
-    },
-    'ROCCIA': {
-      realName: 'Christian',
-      mafiaName: 'Cristiano Di Legno',
-      emoji: '👔',
-      role: 'Familiemedlem',
-      sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
-      color: '#94a3b8',
-      description: 'Du er et loyalt familiemedlem uden særlige evner. Din magt ligger i din stemme: hver dag stemmer familien om hvem der er forræderen. Observer, lyt og stem rigtigt.',
-      secret: 'Familien stoler på dig. Svigt dem ikke.'
-    }
-  };
-
-  function checkCode() {
-    const raw = document.getElementById('codeInput').value.trim().toUpperCase();
-    const member = members[raw];
-    const errEl = document.getElementById('codeError');
-
-    if (!member) {
-      errEl.style.display = 'block';
-      setTimeout(() => { errEl.style.display = 'none'; }, 3000);
-      return;
-    }
-
-    errEl.style.display = 'none';
-    document.getElementById('reveal-emoji').textContent = member.emoji;
-    document.getElementById('reveal-seal').style.background = member.sealBg;
-    document.getElementById('reveal-mafia-name').textContent = member.mafiaName;
-    document.getElementById('reveal-real-name').textContent = member.realName;
-    document.getElementById('reveal-role').textContent = member.role;
-    document.getElementById('reveal-role').style.color = member.color;
-    document.getElementById('reveal-desc').textContent = member.description;
-    document.getElementById('reveal-secret').textContent = '« ' + member.secret + ' »';
-
-    const overlay = document.getElementById('reveal-overlay');
-    overlay.classList.add('active');
-  }
-
-  function closeReveal() {
-    const overlay = document.getElementById('reveal-overlay');
-    overlay.classList.remove('active');
-    document.getElementById('codeInput').value = '';
-  }
-
-  document.getElementById('codeInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkCode();
-  });
-
-  document.getElementById('reveal-overlay').addEventListener('click', function(e) {
-    if (e.target === this) closeReveal();
-  });
-</script>
+  <script src="family-data.js" defer></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
