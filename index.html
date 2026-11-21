@@ -22,12 +22,88 @@
 
     body {
       background-color: var(--bg);
-      background-image: radial-gradient(circle at 50% 20%, #1c0a02 0%, #090401 80%);
+      background-image: radial-gradient(circle at 50% 20%, #1e0902 0%, #090401 80%);
       color: #2a1500;
       font-family: 'Cormorant Garamond', Georgia, serif;
       padding: 24px 14px 60px;
       -webkit-font-smoothing: antialiased;
       -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+    }
+
+    /* ── Cinematic Stamp Intro (Auto-removes, GPU only) ── */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      background: #090401;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      cursor: pointer;
+      animation: intro-fade-out 0.6s cubic-bezier(0.4, 0, 0.2, 1) 1.9s forwards;
+      will-change: opacity;
+    }
+    @keyframes intro-fade-out {
+      to { opacity: 0; visibility: hidden; pointer-events: none; }
+    }
+
+    .intro-seal {
+      width: 145px;
+      height: 145px;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 35% 35%, #500000, #140000);
+      box-shadow: 0 0 40px rgba(201,168,76,0.35);
+      animation: seal-stamp-in 0.5s cubic-bezier(0.17, 0.89, 0.32, 1.25) 0.15s both;
+      will-change: transform, opacity;
+    }
+    @keyframes seal-stamp-in {
+      0%   { transform: scale(2.8) rotate(-15deg); opacity: 0; }
+      100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    .intro-monogram {
+      font-family: 'Cinzel', serif;
+      font-size: 2.3rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .intro-seal-text {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+    .intro-warning {
+      margin-top: 22px;
+      font-family: 'Cinzel', serif;
+      color: var(--blood-glow);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      animation: flicker 1.2s ease-in-out infinite;
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .intro-skip-hint {
+      margin-top: 14px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: rgba(201,168,76,0.4);
+      text-transform: uppercase;
     }
 
     /* ── Messenger / In-App Helper Banner ── */
@@ -46,14 +122,18 @@
       text-align: center;
       line-height: 1.4;
     }
-    #messenger-banner strong {
-      color: #fff;
-    }
+    #messenger-banner strong { color: #fff; }
 
     /* ── Main Letter Wrap ── */
     #letter-wrap {
       max-width: 760px;
       margin: 0 auto;
+      animation: letter-rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both;
+      will-change: transform, opacity;
+    }
+    @keyframes letter-rise-in {
+      from { opacity: 0; transform: translate3d(0, 35px, 0); }
+      to   { opacity: 1; transform: translate3d(0, 0, 0); }
     }
 
     /* ── Parchment Paper ── */
@@ -62,10 +142,48 @@
       background-image: linear-gradient(175deg, #fbf4e4 0%, #f1e2c4 100%);
       border: 2px solid var(--gold);
       border-radius: 4px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.85);
-      padding: 44px 34px 50px;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.85);
+      padding: 46px 32px 52px;
       position: relative;
+      overflow: hidden;
     }
+
+    /* ── Blood Drips on Letter Header (100% GPU transform) ── */
+    .paper-drips {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 48px;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .paper-drip {
+      position: absolute;
+      top: 0;
+      width: 4px;
+      height: 46px;
+      background: linear-gradient(to bottom, var(--blood), rgba(139,0,0,0.1) 85%, transparent);
+      border-radius: 0 0 4px 4px;
+      transform-origin: top;
+      animation: drip-pulse 4s ease-in-out infinite;
+      will-change: transform;
+    }
+    @keyframes drip-pulse {
+      0%, 100% { transform: scaleY(0.7); }
+      50%      { transform: scaleY(1.05); }
+    }
+
+    /* ── Corner Flourishes ── */
+    .corner-ornament {
+      position: absolute;
+      font-size: 1.25rem;
+      color: var(--gold);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .corner-ornament.tl { top: 10px; left: 14px; }
+    .corner-ornament.tr { top: 10px; right: 14px; transform: scaleX(-1); }
+    .corner-ornament.bl { bottom: 10px; left: 14px; transform: scaleY(-1); }
+    .corner-ornament.br { bottom: 10px; right: 14px; transform: scale(-1,-1); }
 
     /* ── Top Crest & Seal ── */
     .top-seal-wrap {
@@ -77,13 +195,18 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 105px;
-      height: 105px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #420303, #150000);
+      background: radial-gradient(circle at 35% 35%, #4a0202, #180000);
       border: 3px solid var(--gold);
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
       margin-bottom: 14px;
+      animation: seal-pulse 3s ease-in-out infinite;
+    }
+    @keyframes seal-pulse {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.04); }
     }
     .seal-monogram {
       font-family: 'Cinzel', serif;
@@ -312,6 +435,11 @@
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #9b111e, #550000);
       box-shadow: 0 3px 12px rgba(139,0,0,0.45);
+      animation: wax-seal-glow 2.5s ease-in-out infinite;
+    }
+    @keyframes wax-seal-glow {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.05); }
     }
     .wax-seal span {
       font-family: 'Cinzel', serif;
@@ -333,6 +461,7 @@
     #code-section {
       max-width: 760px;
       margin: 30px auto 0;
+      animation: letter-rise-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.7s both;
     }
 
     .code-card {
@@ -431,9 +560,12 @@
       align-items: center;
       justify-content: center;
       padding: 14px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
     #reveal-overlay.active {
       display: flex;
+      opacity: 1;
     }
 
     .reveal-card {
@@ -445,6 +577,11 @@
       border-radius: 4px;
       padding: 30px 20px 34px;
       box-shadow: 0 15px 45px rgba(0,0,0,0.9);
+      animation: modal-pop 0.35s cubic-bezier(0.17, 0.89, 0.32, 1.2) both;
+    }
+    @keyframes modal-pop {
+      from { transform: scale(0.85); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
     }
 
     .reveal-seal {
@@ -457,6 +594,7 @@
       justify-content: center;
       margin: 0 auto 16px;
       border: 2px solid var(--gold);
+      animation: seal-pulse 2s ease-in-out infinite;
     }
     .reveal-emoji {
       font-size: 2.3rem;
@@ -568,6 +706,16 @@
 </head>
 <body>
 
+  <!-- Cinematic Stamp Intro Screen -->
+  <div id="intro-screen">
+    <div class="intro-seal">
+      <div class="intro-monogram">DL</div>
+      <div class="intro-seal-text">Famiglia<br>Di Legno</div>
+    </div>
+    <div class="intro-warning">Fortrolig · Riservato</div>
+    <div class="intro-skip-hint">Tryk for at springe over</div>
+  </div>
+
   <!-- Helper banner shown only in Messenger / In-App browser -->
   <div id="messenger-banner">
     ⚠️ <strong>Messenger vindue:</strong> Tryk på <strong>···</strong> i hjørnet og vælg <em>"Åbn i Safari / ekstern browser"</em> for den optimale visning.
@@ -576,6 +724,21 @@
   <!-- The Letter -->
   <div id="letter-wrap">
     <div class="paper">
+      <!-- Blood drips attached to the paper header -->
+      <div class="paper-drips">
+        <div class="paper-drip" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="paper-drip" style="left: 28%; animation-delay: 1.2s; height: 38px;"></div>
+        <div class="paper-drip" style="left: 48%; animation-delay: 2.1s; height: 44px;"></div>
+        <div class="paper-drip" style="left: 68%; animation-delay: 0.7s; height: 40px;"></div>
+        <div class="paper-drip" style="left: 88%; animation-delay: 1.8s; height: 46px;"></div>
+      </div>
+
+      <!-- Corner flourishes -->
+      <span class="corner-ornament tl">❧</span>
+      <span class="corner-ornament tr">❧</span>
+      <span class="corner-ornament bl">❧</span>
+      <span class="corner-ornament br">❧</span>
+
       <div class="stamp-classified">Fortroligt dokument</div>
 
       <!-- Crest & Seal -->
@@ -687,6 +850,16 @@
   </div>
 
 <script>
+  // Intro dismiss logic (smooth & cleans up completely)
+  const intro = document.getElementById('intro-screen');
+  function removeIntro() {
+    intro.style.transition = 'opacity 0.35s ease';
+    intro.style.opacity = '0';
+    setTimeout(() => { intro.style.display = 'none'; }, 380);
+  }
+  intro.addEventListener('click', removeIntro);
+  setTimeout(() => { if (intro.style.display !== 'none') intro.style.display = 'none'; }, 2600);
+
   // Detect Messenger / Instagram in-app browser
   (function detectInApp() {
     const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -824,11 +997,13 @@
     document.getElementById('reveal-desc').textContent = member.description;
     document.getElementById('reveal-secret').textContent = '« ' + member.secret + ' »';
 
-    document.getElementById('reveal-overlay').classList.add('active');
+    const overlay = document.getElementById('reveal-overlay');
+    overlay.classList.add('active');
   }
 
   function closeReveal() {
-    document.getElementById('reveal-overlay').classList.remove('active');
+    const overlay = document.getElementById('reveal-overlay');
+    overlay.classList.remove('active');
     document.getElementById('codeInput').value = '';
   }
 
