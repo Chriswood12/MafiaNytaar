@@ -185,15 +185,33 @@ window.FAMILY_TREE_DATA = {
       generation: 2,
       status: 'alive',
       monogram: 'CR',
-      relationSummary: 'Søn af Lorenzo og Vannissa · Bror til Ascanio og Sebastiano · Fætter til Matilda, Fredericca og Giacomo',
+      relationSummary: 'Søn af Lorenzo og Vannissa · Bror til Sebastiano og Ascanio · Fætter til Matilda, Fredericca og Giacomo · Gift med Francesca Di Legno',
       position:
-        'Familiens fortrolige og fredsmægler. Han er familiens rolige samlingspunkt og den, alle går til, når de har brug for en at tale med. Han lytter, giver gode råd og forsøger at skabe ro, men bliver alligevel altid trukket ind i familiens konflikter.',
+        'Familiens fortrolige og fredsmægler. Han er familiens rolige samlingspunkt, som alle går til for råd og støtte. Han forsøger altid at skabe fred, men bliver ofte trukket ind i familiens konflikter.',
       personality:
-        'Cristiano er rolig, venlig, sød, charmerende og omsorgsfuld. Han er imødekommende, god til at lytte, give råd og en person, man trygt kan betro sig til. Han hader konflikter og forsøger altid at se det bedste i andre.',
+        'Rolig, venlig, charmerende og omsorgsfuld. Han er god til at lytte og hader konflikter. Han forsøger altid at se det bedste i andre, men har svært ved at sige fra.',
       reputation:
-        'Familiens gode hjerte. Han er vellidt af alle og kendt som den fornuftige mand, der helst holder sig uden for familiens beskidte forretninger. Ingen ved dog altid, hvor han er, eller hvad han foretager sig.',
-      quote: 'Jeg ønsker ikke problemer. Jeg ønsker bare, at vi alle kan leve i fred. Men det er åbenbart for meget at bede om i denne familie.',
+        'Cristiano er rolig, venlig, sød, charmerende og omsorgsfuld. Han er imødekommende, god til at lytte, give råd og en person, man trygt kan betro sig til. Han hader konflikter og forsøger altid at se det bedste i andre.',
+      quote: 'Jeg ønsker ikke problemer. Jeg ønsker bare, at vi alle kan leve i fred. Men måske er det på tide, at jeg tænker på vores egen familie først.',
       traits: ['Fredsmægler', 'Fortrolig', 'Omsorgsfuld']
+    },
+    {
+      id: 'frida',
+      mafiaName: 'Francesca Di Legno',
+      realName: 'Frida',
+      title: 'Cristianos hustru & inderkreds',
+      generation: 2,
+      status: 'alive',
+      monogram: 'FR',
+      relationSummary: 'Gift med Cristiano Di Legno · Svigerdatter til Vannissa og afdøde Lorenzo · Svigerinde til Ascanio og Sebastiano',
+      position:
+        'Cristianos hustru og en kvinde med ambitioner på familiens vegne. Hun ønsker, at Cristiano blander sig mere i familiens beslutninger og tager en større rolle i kampen om magten.',
+      personality:
+        'Ambitiøs, selvsikker, vidunderlig smuk og viljestærk. Francesca ved, hvad hun vil have, og er ikke bange for at sige sin mening. Hun elsker Cristiano mere end livet selv, men mener, at han er alt for godtroende og tilbageholdende, når det kommer til familien. Hun ser muligheder, hvor andre ser problemer, og mener ikke, at man skal lade magten gå til spilde.',
+      reputation:
+        'Francesca er ikke den, der råber højest, men hun ved, hvordan man får sin vilje med hendes flirtende væremåde. Hun er elegant og veltalende, men bag det smukke ydre gemmer der sig en kvinde med store ambitioner. Nogle mener, at hun har alt for stor indflydelse på Cristiano.',
+      quote: 'Skat, det er på tide, du holder op med at mægle mellem dem og begynder at bestemme over dem.',
+      traits: ['Ambitiøs', 'Viljestærk', 'Elegant']
     },
     {
       id: 'jacob',
@@ -237,6 +255,9 @@ window.FAMILY_TREE_DATA = {
     { from: 'sebastian', to: 'christian', type: 'sibling', label: 'Brødre' },
 
     // Guglielmos søn
-    { from: 'willy', to: 'jacob', type: 'parent', label: 'Far / Søn' }
+    { from: 'willy', to: 'jacob', type: 'parent', label: 'Far / Søn' },
+
+    // Ægteskab i 2. generation
+    { from: 'christian', to: 'frida', type: 'marriage', label: 'Ægtefæller' }
   ]
 };

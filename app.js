@@ -292,8 +292,35 @@
           const childrenWrap = document.createElement('div');
           childrenWrap.className = 'tree-branch-children';
           children.forEach((child) => {
+            if (placedChildren.has(child.id)) return;
             placedChildren.add(child.id);
-            childrenWrap.appendChild(createMemberNode(child));
+
+            const childMarriage = marriagePairs.find(
+              ([a, b]) =>
+                (a === child.id && !placedChildren.has(b) && peopleById.has(b)) ||
+                (b === child.id && !placedChildren.has(a) && peopleById.has(a))
+            );
+
+            if (childMarriage) {
+              const spouseId = childMarriage[0] === child.id ? childMarriage[1] : childMarriage[0];
+              const spouse = peopleById.get(spouseId);
+              placedChildren.add(spouse.id);
+
+              const coupleEl = document.createElement('div');
+              coupleEl.className = 'couple-unit';
+
+              const tieEl = document.createElement('div');
+              tieEl.className = 'marriage-tie';
+              tieEl.setAttribute('aria-hidden', 'true');
+              const tieBadge = document.createElement('span');
+              tieBadge.textContent = '❦';
+              tieEl.appendChild(tieBadge);
+
+              coupleEl.append(createMemberNode(child), tieEl, createMemberNode(spouse));
+              childrenWrap.appendChild(coupleEl);
+            } else {
+              childrenWrap.appendChild(createMemberNode(child));
+            }
           });
           branchEl.appendChild(childrenWrap);
         }
@@ -818,7 +845,7 @@
       sealBg: 'radial-gradient(circle at 35% 35%, #c9a84c, #7a5c10)',
       color: '#c9a84c',
       description:
-        'Du er Don Christofo og aftenens spilleder (Gamemaster). Du kender alle 8 spilleres roller: 2 Forrædere (Aske & Jacob), 1 Efterforsker/Seer (Vanni), 1 Giftblander/Heks (Anne), 1 Snigskytte/Jæger (Sebastian) og 3 Familiemedlemmer (Tilde, Freddy & Christian).',
+        'Du er Don Christofo og aftenens spilleder (Gamemaster). Du kender alle 9 spilleres roller: 2 Forrædere (Aske & Jacob), 1 Efterforsker/Seer (Vanni), 1 Giftblander/Heks (Anne), 1 Snigskytte/Jæger (Sebastian) og 4 Familiemedlemmer (Tilde, Freddy, Christian & Frida).',
       secret: 'Du ved alt. Styr natten og hold orden i familien.',
       charSecret:
         'Don Christofo har gennem årene truffet beslutninger, som har skabt fjender både inden for og uden for familien. Mordet på hans bror Lorenzo kan være tættere forbundet med hans egen fortid, end han ønsker at indrømme.'
@@ -925,7 +952,20 @@
         'Du er et loyalt familiemedlem (Landsbyboer) uden specielle nat-evner. Din styrke er debatten og afstemningen om dagen — observér, lyt og stem forræderne ud.',
       secret: 'Hold hovedet koldt — de farligste løgne siges med et smil.',
       charSecret:
-        'Cristiano har en vidunderlig kvinde i sit liv, som han elsker højt. Hun ved intet om hans mafiafamilie. Han har løjet for hende og lever et dobbeltliv for at beskytte hende fra sin families mørke verden. Hvad sker der, hvis hun en dag finder ud af, hvem han i virkeligheden er?'
+        'Francesca presser Cristiano til at engagere sig mere i familien og kæmpe for en stærkere position. Han er splittet mellem sit ønske om fred og hendes ambitioner. Hvor langt vil han gå for hendes skyld?'
+    },
+    STELLA: {
+      realName: 'Frida',
+      mafiaName: 'Francesca Di Legno',
+      emoji: '👔',
+      role: 'Familiemedlem',
+      sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
+      color: '#94a3b8',
+      description:
+        'Du er et loyalt familiemedlem (Landsbyboer) uden specielle nat-evner. Din styrke er debatten og afstemningen om dagen — observér, lyt og stem forræderne ud.',
+      secret: 'Magten tilfalder dem, der tør tage den. Spil dine kort klogt ved bordet.',
+      charSecret:
+        'Francesca presser på for, at Cristiano skal blande sig mere i familiens magtkampe. Hun mener, at han fortjener en langt større position, og at familien ville stå stærkere, hvis han tog mere kontrol. Men hvor langt er hun villig til at gå for at få ham til tops?'
     }
   };
 
