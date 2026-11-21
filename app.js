@@ -107,7 +107,6 @@
     const detailEl = document.getElementById('treeDetail');
     const viewTreeBtn = document.getElementById('viewTreeBtn');
     const viewListBtn = document.getElementById('viewListBtn');
-    const intrigueBtn = document.getElementById('toggleIntriguesBtn');
 
     if (!viewportEl || !canvasEl || !svgEl || !generationsEl || !listViewEl || !detailEl) return;
 
@@ -157,22 +156,11 @@
           addAdj(fid, toId, 'sibling', rel.label || 'Søskende', rel.label || 'Søskende');
           addAdj(toId, fid, 'sibling', rel.label || 'Søskende', rel.label || 'Søskende');
         });
-      } else if (rel.type === 'alliance') {
-        fromIds.forEach((fid) => {
-          addAdj(fid, toId, 'alliance', 'Alliance', rel.label || 'Alliance');
-          addAdj(toId, fid, 'alliance', 'Alliance', rel.label || 'Alliance');
-        });
-      } else if (rel.type === 'rival') {
-        fromIds.forEach((fid) => {
-          addAdj(fid, toId, 'rival', 'Rival', rel.label || 'Rival');
-          addAdj(toId, fid, 'rival', 'Rival', rel.label || 'Rival');
-        });
       }
     });
 
     let selectedId = null;
     let currentView = 'tree';
-    let showIntrigues = false;
     let rafPending = false;
 
     function createMemberNode(person) {
@@ -225,6 +213,9 @@
       });
 
       const sortedGens = Array.from(byGen.keys()).sort((a, b) => a - b);
+      const topGen = sortedGens[0] || 1;
+      const topPeople = byGen.get(topGen) || [];
+      const placed = new Set();
 
       // Build marriage partner lookup for same-generation pairing
       const marriagePairs = [];
@@ -234,59 +225,80 @@
         }
       });
 
-      sortedGens.forEach((gen) => {
-        const genPeople = byGen.get(gen);
-        const placed = new Set();
-
-        const groupEl = document.createElement('div');
-        groupEl.className = 'tree-gen-group';
-
-        const labelEl = document.createElement('div');
-        labelEl.className = 'tree-gen-label';
-        labelEl.textContent = `${gen}. Generation`;
-
-        const rowEl = document.createElement('div');
-        rowEl.className = 'tree-gen-row';
-
-        genPeople.forEach((person) => {
-          if (placed.has(person.id)) return;
-
-          // Check if this person has a spouse in the same generation
-          const marriage = marriagePairs.find(
-            ([a, b]) =>
-              (a === person.id && genPeople.some((p) => p.id === b && !placed.has(b))) ||
-              (b === person.id && genPeople.some((p) => p.id === a && !placed.has(a)))
-          );
-
-          if (marriage) {
-            const partnerId = marriage[0] === person.id ? marriage[1] : marriage[0];
-            const partner = peopleById.get(partnerId);
-            placed.add(person.id);
-            placed.add(partner.id);
-
-            const coupleEl = document.createElement('div');
-            coupleEl.className = 'couple-unit';
-
-            const tieEl = document.createElement('div');
-            tieEl.className = 'marriage-tie';
-            tieEl.setAttribute('aria-hidden', 'true');
-            const tieBadge = document.createElement('span');
-            tieBadge.textContent = '❦';
-            tieEl.appendChild(tieBadge);
-
-            coupleEl.append(createMemberNode(person), tieEl, createMemberNode(partner));
-            rowEl.appendChild(coupleEl);
-          } else {
-            placed.add(person.id);
-            const singleEl = document.createElement('div');
-            singleEl.className = 'single-unit';
-            singleEl.appendChild(createMemberNode(person));
-            rowEl.appendChild(singleEl);
+      // Helper to collect children of a given list of parent IDs
+      function getChildrenOf(parentIds) {
+        const childIds = [];
+        data.relations.forEach((rel) => {
+          if (rel.type !== 'parent') return;
+          const fromList = Array.isArray(rel.from) ? rel.from : [rel.from];
+          if (fromList.some((fid) => parentIds.includes(fid)) && !childIds.includes(rel.to)) {
+            if (peopleById.has(rel.to)) childIds.push(rel.to);
           }
         });
+        return childIds.map((id) => peopleById.get(id));
+      }
 
-        groupEl.append(labelEl, rowEl);
-        generationsEl.appendChild(groupEl);
+      const placedChildren = new Set();
+
+      topPeople.forEach((person) => {
+        if (placed.has(person.id)) return;
+
+        const branchEl = document.createElement('div');
+        branchEl.className = 'tree-branch';
+
+        const parentsWrap = document.createElement('div');
+        parentsWrap.className = 'tree-branch-parents';
+
+        const marriage = marriagePairs.find(
+          ([a, b]) =>
+            (a === person.id && topPeople.some((p) => p.id === b && !placed.has(b))) ||
+            (b === person.id && topPeople.some((p) => p.id === a && !placed.has(a)))
+        );
+
+        let unitIds;
+        if (marriage) {
+          const partnerId = marriage[0] === person.id ? marriage[1] : marriage[0];
+          const partner = peopleById.get(partnerId);
+          placed.add(person.id);
+          placed.add(partner.id);
+          unitIds = [person.id, partner.id];
+
+          const coupleEl = document.createElement('div');
+          coupleEl.className = 'couple-unit';
+
+          const tieEl = document.createElement('div');
+          tieEl.className = 'marriage-tie';
+          tieEl.setAttribute('aria-hidden', 'true');
+          const tieBadge = document.createElement('span');
+          tieBadge.textContent = '❦';
+          tieEl.appendChild(tieBadge);
+
+          coupleEl.append(createMemberNode(person), tieEl, createMemberNode(partner));
+          parentsWrap.appendChild(coupleEl);
+        } else {
+          placed.add(person.id);
+          unitIds = [person.id];
+
+          const singleEl = document.createElement('div');
+          singleEl.className = 'single-unit';
+          singleEl.appendChild(createMemberNode(person));
+          parentsWrap.appendChild(singleEl);
+        }
+
+        branchEl.appendChild(parentsWrap);
+
+        const children = getChildrenOf(unitIds).filter((c) => !placedChildren.has(c.id));
+        if (children.length > 0) {
+          const childrenWrap = document.createElement('div');
+          childrenWrap.className = 'tree-branch-children';
+          children.forEach((child) => {
+            placedChildren.add(child.id);
+            childrenWrap.appendChild(createMemberNode(child));
+          });
+          branchEl.appendChild(childrenWrap);
+        }
+
+        generationsEl.appendChild(branchEl);
       });
     }
 
@@ -475,18 +487,20 @@
         });
       });
 
-      // 2. Draw sibling, alliance, and rival paths
-      let intrigueIdx = 0;
+      // 2. Draw sibling paths
       let siblingIdx = 0;
       data.relations.forEach((rel) => {
-        if (rel.type === 'marriage' || rel.type === 'parent') return;
+        if (rel.type !== 'sibling') return;
         const fromId = Array.isArray(rel.from) ? rel.from[0] : rel.from;
         const toId = rel.to;
         const rA = nodeRects.get(fromId);
         const rB = nodeRects.get(toId);
         if (!rA || !rB) return;
 
-        if (rel.type === 'sibling') {
+        const sameRow = Math.abs(rA.top - rB.top) < 30;
+        let d;
+
+        if (sameRow) {
           const archLift = 13 + (siblingIdx % 2) * 5;
           siblingIdx += 1;
           const archY = Math.min(rA.top, rB.top) - archLift;
@@ -494,7 +508,7 @@
           const r = 6;
           const dir = dx >= 0 ? 1 : -1;
 
-          const d =
+          d =
             Math.abs(dx) < 2 * r
               ? `M ${rA.centerX.toFixed(1)} ${rA.top.toFixed(1)} L ${rB.centerX.toFixed(
                   1
@@ -512,28 +526,30 @@
                   )} ${(archY + r).toFixed(1)}`,
                   `L ${rB.centerX.toFixed(1)} ${rB.top.toFixed(1)}`
                 ].join(' ');
-
-          svgEl.appendChild(createSvgPath(d, 'tree-path tree-path-sibling', [fromId, toId]));
-        } else if (rel.type === 'alliance' || rel.type === 'rival') {
-          const dx = rB.centerX - rA.centerX;
-          const dy = rB.centerY - rA.centerY;
-          const dist = Math.hypot(dx, dy) || 1;
-          const nx = -dy / dist;
-          const ny = dx / dist;
-          const curveSide = intrigueIdx % 2 === 0 ? 1 : -1;
-          intrigueIdx += 1;
-          const curveAmt = Math.min(54, Math.max(24, dist * 0.22)) * curveSide;
-          const cx = (rA.centerX + rB.centerX) / 2 + nx * curveAmt;
-          const cy = (rA.centerY + rB.centerY) / 2 + ny * curveAmt;
-
-          const d = `M ${rA.centerX.toFixed(1)} ${rA.centerY.toFixed(1)} Q ${cx.toFixed(
-            1
-          )} ${cy.toFixed(1)} ${rB.centerX.toFixed(1)} ${rB.centerY.toFixed(1)}`;
-
-          svgEl.appendChild(
-            createSvgPath(d, `tree-path tree-path-${rel.type}`, [fromId, toId])
-          );
+        } else {
+          // Vertical side rail along the left edge when branches stack on narrow screens
+          const railX = 5 + (siblingIdx % 2) * 4;
+          siblingIdx += 1;
+          const r = 6;
+          const y1 = rA.centerY;
+          const y2 = rB.centerY;
+          const vDir = y2 >= y1 ? 1 : -1;
+          d = [
+            `M ${rA.left.toFixed(1)} ${y1.toFixed(1)}`,
+            `L ${(railX + r).toFixed(1)} ${y1.toFixed(1)}`,
+            `Q ${railX.toFixed(1)} ${y1.toFixed(1)} ${railX.toFixed(1)} ${(
+              y1 +
+              vDir * r
+            ).toFixed(1)}`,
+            `L ${railX.toFixed(1)} ${(y2 - vDir * r).toFixed(1)}`,
+            `Q ${railX.toFixed(1)} ${y2.toFixed(1)} ${(railX + r).toFixed(1)} ${y2.toFixed(
+              1
+            )}`,
+            `L ${rB.left.toFixed(1)} ${y2.toFixed(1)}`
+          ].join(' ');
         }
+
+        svgEl.appendChild(createSvgPath(d, 'tree-path tree-path-sibling', [fromId, toId]));
       });
 
       updateSelectionStyles();
@@ -685,10 +701,7 @@
 
           const typeSpan = document.createElement('span');
           typeSpan.className = 'rel-pill-type';
-          typeSpan.textContent =
-            rel.type === 'alliance' || rel.type === 'rival'
-              ? `${rel.typeLabel} (${rel.contextLabel}):`
-              : `${rel.typeLabel}:`;
+          typeSpan.textContent = `${rel.typeLabel}:`;
 
           const targetSpan = document.createElement('span');
           targetSpan.textContent = target.mafiaName;
@@ -753,12 +766,7 @@
       viewportEl.classList.toggle('is-hidden', !isTree);
       listViewEl.classList.toggle('active', !isTree);
       const legendEl = document.querySelector('#tree-section .tree-legend');
-      const scrollHintEl = document.querySelector('#tree-section .tree-scroll-hint');
       if (legendEl) legendEl.classList.toggle('is-hidden', !isTree);
-      if (scrollHintEl) scrollHintEl.classList.toggle('is-hidden', !isTree);
-      if (intrigueBtn) {
-        intrigueBtn.style.display = isTree ? 'inline-block' : 'none';
-      }
 
       if (isTree) {
         scheduleDrawTreeLines();
@@ -767,15 +775,6 @@
 
     if (viewTreeBtn) viewTreeBtn.addEventListener('click', () => setView('tree'));
     if (viewListBtn) viewListBtn.addEventListener('click', () => setView('list'));
-
-    if (intrigueBtn) {
-      intrigueBtn.addEventListener('click', () => {
-        showIntrigues = !showIntrigues;
-        canvasEl.classList.toggle('show-intrigues', showIntrigues);
-        intrigueBtn.classList.toggle('active', showIntrigues);
-        intrigueBtn.setAttribute('aria-pressed', String(showIntrigues));
-      });
-    }
 
     renderTreeView();
     renderListView();

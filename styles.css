@@ -592,7 +592,7 @@ body.intro-done #letter-wrap {
    SLÆGTSTRÆ-SEKTION (FAMIGLIA DI LEGNO)
 ════════════════════════════════════════════ */
 #tree-section {
-  max-width: 780px;
+  max-width: 1060px;
   margin: 30px auto 0;
 }
 
@@ -731,8 +731,7 @@ body.intro-done #letter-wrap {
 
 /* ── Tree Viewport & Canvas ── */
 .tree-viewport {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
   position: relative;
   border: 1px solid rgba(201, 168, 76, 0.2);
   border-radius: 4px;
@@ -741,8 +740,8 @@ body.intro-done #letter-wrap {
 
 .tree-canvas {
   position: relative;
-  min-width: 890px;
-  padding: 26px 16px 26px;
+  width: 100%;
+  padding: 34px 16px 26px;
   margin: 0 auto;
 }
 
@@ -811,42 +810,36 @@ svg.tree-lines {
   stroke-width: 2.5;
 }
 
-/* ── Generations & Nodes ── */
+/* ── Branches & Nodes ── */
 .tree-generations {
   position: relative;
   z-index: 1;
   display: flex;
-  flex-direction: column;
-  gap: 48px;
-}
-
-.tree-gen-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
   gap: 22px;
 }
 
-.tree-gen-label {
-  font-family: 'Cinzel', serif;
-  font-size: 0.54rem;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: rgba(201, 168, 76, 0.72);
-  background: #130602;
-  border: 1px solid rgba(201, 168, 76, 0.2);
-  border-radius: 999px;
-  padding: 2px 12px;
+.tree-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
   position: relative;
-  z-index: 2;
 }
 
-.tree-gen-row {
+.tree-branch-parents {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  gap: 14px;
-  position: relative;
+}
+
+.tree-branch-children {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 10px;
 }
 
 .couple-unit {
@@ -865,7 +858,7 @@ svg.tree-lines {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
+  width: 22px;
   height: 24px;
   position: relative;
   color: var(--gold);
@@ -901,7 +894,7 @@ svg.tree-lines {
 
 /* ── Member Card Node ── */
 .tree-node {
-  width: 132px;
+  width: 126px;
   background: linear-gradient(170deg, #210e06 0%, #140702 100%);
   border: 1px solid rgba(201, 168, 76, 0.42);
   border-radius: 4px;
@@ -1614,9 +1607,24 @@ svg.tree-lines {
   text-align: center;
 }
 
-@media (max-width: 920px) {
-  .tree-scroll-hint {
-    display: block;
+@media (max-width: 960px) {
+  .tree-generations {
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+  }
+  .tree-canvas {
+    padding: 24px 10px 24px;
+  }
+  .tree-branch {
+    width: 100%;
+    gap: 36px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.14);
+  }
+  .tree-branch:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
   }
 }
 
@@ -1637,7 +1645,34 @@ svg.tree-lines {
     font-size: 1.45rem;
   }
   .tree-card {
-    padding: 26px 12px 28px;
+    padding: 24px 10px 26px;
+  }
+  .tree-canvas {
+    padding: 20px 6px 20px;
+  }
+  .tree-branch-children {
+    gap: 7px;
+  }
+  .tree-node {
+    width: 104px;
+    padding: 8px 5px 9px;
+  }
+  .node-crest {
+    width: 30px;
+    height: 30px;
+    font-size: 0.65rem;
+  }
+  .node-mafia-name {
+    font-size: 0.6rem;
+  }
+  .node-real-name {
+    font-size: 0.76rem;
+  }
+  .node-title {
+    font-size: 0.7rem;
+  }
+  .marriage-tie {
+    width: 20px;
   }
   .code-card {
     padding: 28px 14px 32px;

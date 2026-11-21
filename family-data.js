@@ -237,11 +237,6 @@ window.FAMILY_TREE_DATA = {
     { from: 'sebastian', to: 'christian', type: 'sibling', label: 'Brødre' },
 
     // Guglielmos søn
-    { from: 'willy', to: 'jacob', type: 'parent', label: 'Far / Søn' },
-
-    // Offentlige spændinger & tætte bånd (kan slås til/fra med knappen)
-    { from: 'christopher', to: 'willy', type: 'alliance', label: 'Imperiets ledelse' },
-    { from: 'vanni', to: 'aske', type: 'alliance', label: 'Tæt mor-søn bånd' },
-    { from: 'tilde', to: 'freddy', type: 'rival', label: 'Kampen om arvefølgen' }
+    { from: 'willy', to: 'jacob', type: 'parent', label: 'Far / Søn' }
   ]
 };
