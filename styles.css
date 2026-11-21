@@ -1641,6 +1641,13 @@ svg.tree-lines {
   margin-bottom: 18px;
 }
 
+.location-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
 .location-maps-btn {
   display: inline-flex;
   align-items: center;
