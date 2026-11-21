@@ -832,7 +832,7 @@
       color: '#f87171',
       description:
         'Du er én af familiens 2 forrædere (Varulve). Hver nat vågner I sammen i hemmelighed og vælger én spiller at eliminere. Om dagen skal I blande jer i debatten og skjule jeres identitet — ingen må opdage, at det er jer.',
-      secret: 'Du er ulven i fåreklæder. Stol kun på din medskyldige om natten.',
+      secret: 'Du og din medskyldige holder hinandens hemmeligheder i mørket. Beskyt dem du elsker — og slå til om natten.',
       charSecret:
         'Ascanio har et særligt tæt forhold til sin mor og vil gøre næsten alt for at beskytte hende. Men hans loyalitet bliver sat på prøve, da han opdager, at hun muligvis skjuler noget afgørende om mordet på hans far Lorenzo.'
     },
@@ -845,9 +845,9 @@
       color: '#f87171',
       description:
         'Du er én af familiens 2 forrædere (Varulve). Hver nat vågner I sammen i hemmelighed og vælger én spiller at eliminere. Om dagen skal I blande jer i debatten og skjule jeres identitet — ingen må opdage, at det er jer.',
-      secret: 'Smil, charmér dem alle — og slå til, når mørket falder på.',
+      secret: 'Du og din medskyldige holder hinandens hemmeligheder i mørket. Smil, charmér dem alle — og slå til om natten.',
       charSecret:
-        'Giacomo har en tendens til at leve lidt over evne og har muligvis oparbejdet en gæld til nogle af de forkerte mennesker. En gæld, som kan få alvorlige konsekvenser for hele familien. Han spiller måske et farligt dobbeltspil, og hvis sandheden kommer frem, kan det koste ham mere end blot familiens tillid.'
+        'Giacomo har levet over evne og oparbejdet en farlig gæld til nogle af de forkerte mennesker. For at redde sig selv spiller han et farligt dobbeltspil — og han ved, at sandheden om mordet på onkel Lorenzo kan få alvorlige konsekvenser for hele familien. Hvis sandheden kommer frem, kan det koste ham mere end blot familiens tillid.'
     },
     FIAMMA: {
       realName: 'Vanni',
