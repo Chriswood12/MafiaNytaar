@@ -1597,6 +1597,74 @@ svg.tree-lines {
   color: var(--gold);
 }
 
+/* ════════════════════════════════
+   ADRESSE & GOOGLE MAPS
+════════════════════════════════ */
+#location-section {
+  max-width: 780px;
+  margin: 24px auto 0;
+}
+
+.location-card {
+  background: #110501;
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-top: 2px solid var(--gold);
+  border-radius: 4px;
+  padding: 28px 20px 30px;
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.75);
+}
+
+.location-eyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.35em;
+  color: rgba(201, 168, 76, 0.65);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.location-heading {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.location-city {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  color: rgba(245, 234, 214, 0.72);
+  margin-bottom: 18px;
+}
+
+.location-maps-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: rgba(139, 0, 0, 0.35);
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+  color: var(--gold-light);
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.location-maps-btn:hover,
+.location-maps-btn:active {
+  background: var(--blood);
+  color: #fff;
+}
+
 .footer-note {
   margin-top: 22px;
   font-family: 'Cinzel', serif;
