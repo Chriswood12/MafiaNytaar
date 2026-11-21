@@ -622,11 +622,36 @@
       summaryEl.className = 'detail-summary';
       summaryEl.textContent = person.relationSummary || '';
 
-      const bioEl = document.createElement('p');
-      bioEl.className = 'detail-bio';
-      bioEl.textContent = person.bio || '';
+      detailEl.append(closeBtn, header, summaryEl);
 
-      detailEl.append(closeBtn, header, summaryEl, bioEl);
+      function addProfileSection(label, text) {
+        if (!text) return;
+        const lbl = document.createElement('div');
+        lbl.className = 'detail-section-label';
+        lbl.textContent = label;
+        const p = document.createElement('p');
+        p.className = 'detail-bio';
+        p.textContent = text;
+        detailEl.append(lbl, p);
+      }
+
+      if (person.position || person.personality || person.reputation) {
+        addProfileSection('Position i familien', person.position);
+        addProfileSection('Personlighed', person.personality);
+        addProfileSection('Omdømme', person.reputation);
+      } else if (person.bio) {
+        const bioEl = document.createElement('p');
+        bioEl.className = 'detail-bio';
+        bioEl.textContent = person.bio;
+        detailEl.appendChild(bioEl);
+      }
+
+      if (person.quote) {
+        const quoteEl = document.createElement('blockquote');
+        quoteEl.className = 'detail-quote';
+        quoteEl.textContent = `“${person.quote}”`;
+        detailEl.appendChild(quoteEl);
+      }
 
       if (Array.isArray(person.traits) && person.traits.length > 0) {
         const traitsWrap = document.createElement('div');
@@ -790,67 +815,79 @@
       realName: 'Christopher',
       mafiaName: 'Don Christofo Di Legno',
       emoji: '👑',
-      role: 'Don — Spillets Leder',
+      role: 'Don — Spilleder',
       sealBg: 'radial-gradient(circle at 35% 35%, #c9a84c, #7a5c10)',
       color: '#c9a84c',
       description:
-        'Du er Donen og aftenens Gamemaster. Du kender alle spillernes roller. Det er dig der styrer spillet — du dræber ikke og kan ikke dræbes.',
-      secret: 'Du ved alt. Hold orden i familien.'
-    },
-    LUPO13: {
-      realName: 'Aske',
-      mafiaName: 'Ascanio Di Legno',
-      emoji: '🗡️',
-      role: 'Forræderen',
-      sealBg: 'radial-gradient(circle at 35% 35%, #555, #111)',
-      color: '#f87171',
-      description:
-        'Du arbejder hemmeligt for familiens fjender. Hver nat peger du på én person, som bliver elimineret. Om dagen skal du blande dig ind og snakke dig fra det — ingen må finde ud af det er dig.',
-      secret: 'Du er ulven i fåreklæder. Bliv ikke afsløret.'
-    },
-    OCCHIO: {
-      realName: 'Freddy',
-      mafiaName: 'Fredericca Di Legno',
-      emoji: '🔍',
-      role: 'Efterforskeren',
-      sealBg: 'radial-gradient(circle at 35% 35%, #6a0dad, #2a004a)',
-      color: '#c084fc',
-      description:
-        'Hver nat peger du i hemmelighed på én person. Donen fortæller dig om de er uskyldig eller forræder. Brug den information til at afsløre forræderen — men vær forsigtig med hvem du stoler på.',
-      secret: 'Du har øjne overalt. Brug dem klogt.'
-    },
-    DOLCE9: {
-      realName: 'Anne',
-      mafiaName: 'Donna Anna Sophia Di Legno',
-      emoji: '🛡️',
-      role: 'Livvagten',
-      sealBg: 'radial-gradient(circle at 35% 35%, #0a7a3a, #022a12)',
-      color: '#4ade80',
-      description:
-        'Hver nat vælger du én person du vil beskytte — også dig selv. Hvis forræderen angriber den person, overlever de. Du ved ikke hvem forræderen er, så gæt klogt.',
-      secret: 'Din beskyttelse kan redde familien. Vælg rigtigt.'
+        'Du er Don Christofo og aftenens spilleder (Gamemaster). Du kender alle 9 spilleres roller: 2 Forrædere (Willy & Jacob), 1 Efterforsker/Seer (Vanni), 1 Giftblander/Heks (Anne), 1 Snigskytte/Jæger (Sebastian) og 4 Familiemedlemmer (Tilde, Freddy, Aske & Christian).',
+      secret: 'Du ved alt. Styr natten og hold orden i familien.',
+      charSecret:
+        'Don Christofo har gennem årene truffet beslutninger, som har skabt fjender både inden for og uden for familien. Mordet på hans bror Lorenzo kan være tættere forbundet med hans egen fortid, end han ønsker at indrømme.'
     },
     BRUJA7: {
       realName: 'Willy',
       mafiaName: 'Guglielmo Di Legno',
-      emoji: '☠️',
-      role: 'Giftblanderen',
-      sealBg: 'radial-gradient(circle at 35% 35%, #7a3a00, #2a1000)',
-      color: '#fb923c',
+      emoji: '🗡️',
+      role: 'Forræder (Varulv)',
+      sealBg: 'radial-gradient(circle at 35% 35%, #555, #111)',
+      color: '#f87171',
       description:
-        'Du har to kort — og hvert kan kun bruges én gang. Ét antidot: redder forræderens offer den nat. Ét gift: eliminerer en valgfri spiller samme nat. Brug dem på det rigtige tidspunkt.',
-      secret: 'To chancer. Spild dem ikke.'
+        'Du er én af familiens 2 forrædere (Varulve). Hver nat vågner I sammen i hemmelighed og vælger én spiller at eliminere. Om dagen skal I blande jer i debatten og skjule jeres identitet — ingen må opdage, at det er jer.',
+      secret: 'Magten skal skifte hænder. Stol kun på din medskyldige om natten.',
+      charSecret:
+        'Guglielmo har længe følt, at hans storebror har taget al magten og æren for familiens succes. Han mener selv, at han har været mindst lige så afgørende for imperiets opbygning, og måske er han begyndt at overveje, hvordan magten kunne skifte hænder.'
     },
     FRECCIA: {
       realName: 'Jacob',
       mafiaName: 'Giacomo Di Legno',
+      emoji: '🗡️',
+      role: 'Forræder (Varulv)',
+      sealBg: 'radial-gradient(circle at 35% 35%, #555, #111)',
+      color: '#f87171',
+      description:
+        'Du er én af familiens 2 forrædere (Varulve). Hver nat vågner I sammen i hemmelighed og vælger én spiller at eliminere. Om dagen skal I blande jer i debatten og skjule jeres identitet — ingen må opdage, at det er jer.',
+      secret: 'Smil, charmér dem alle — og slå til, når mørket falder på.',
+      charSecret:
+        'Giacomo har en tendens til at leve lidt over evne og har muligvis oparbejdet en gæld til nogle af de forkerte mennesker. En gæld, som kan få alvorlige konsekvenser for hele familien. Han spiller måske et farligt dobbeltspil, og hvis sandheden kommer frem, kan det koste ham mere end blot familiens tillid.'
+    },
+    FIAMMA: {
+      realName: 'Vanni',
+      mafiaName: 'Vannissa Di Legno',
+      emoji: '🔍',
+      role: 'Efterforskeren (Seer)',
+      sealBg: 'radial-gradient(circle at 35% 35%, #6a0dad, #2a004a)',
+      color: '#c084fc',
+      description:
+        'Du er familiens Seer. Hver nat vågner du og peger på én spiller. Don Christofo nikker (hvis personen er forræder/varulv) eller ryster på hovedet (hvis personen er loyal). Brug din viden klogt i debatten uden at afsløre dig selv for tidligt.',
+      secret: 'Du har øjne og ører overalt. Brug sandheden på det rette tidspunkt.',
+      charSecret:
+        'Vannissa har gennem længere tid haft kendskab til en hemmelighed, der kan ryste hele Di Legno-familien. Spørgsmålet er ikke, hvad hun ved — men hvem hun har valgt at fortælle det til.'
+    },
+    DOLCE9: {
+      realName: 'Anne',
+      mafiaName: 'Donna Anna Sophia Di Legno',
+      emoji: '☠️',
+      role: 'Giftblanderen (Heks)',
+      sealBg: 'radial-gradient(circle at 35% 35%, #7a3a00, #2a1000)',
+      color: '#fb923c',
+      description:
+        'Du er familiens Heks. Du har to éngangsbrygge i løbet af hele spillet: en livseliksir (redder nattens offer) og en gift (dræber en spiller efter eget valg). Du må gerne bruge begge samme nat, men kun én gang pr. eliksir i hele spillet.',
+      secret: 'Du trækker i trådene over liv og død. Spild ikke dine dråber.',
+      charSecret:
+        'Anna Sophia ved langt mere om familiens interne konflikter, end hun giver udtryk for. Hun har muligvis kendt til truslen mod Don Christofos bror Lorenzo længe før mordet.'
+    },
+    PIETRA: {
+      realName: 'Sebastian',
+      mafiaName: 'Sebastiano Di Legno',
       emoji: '🔫',
-      role: 'Snigskytten',
+      role: 'Snigskytten (Jæger)',
       sealBg: 'radial-gradient(circle at 35% 35%, #5a3a00, #1a0a00)',
       color: '#fbbf24',
       description:
-        'Du har ingen særlig evne om natten. Men hvis du bliver elimineret — uanset årsag — må du med det samme pege på én anden spiller, som også dør. Fjenden betaler en pris for at tage dig ud.',
-      secret: 'Selv i døden skyder du tilbage.'
+        'Du er familiens Jæger. Du har ingen nat-evne, men hvis du bliver elimineret — enten om natten eller stemt ud om dagen — tager du straks én anden spiller med dig i døden via et sidste skud.',
+      secret: 'Selv i døden leverer du dit sidste skud.',
+      charSecret:
+        'Sebastiano har gennem årene udført opgaver for familien, som ingen officielt kender til. Men han har en personlig mistanke om, at mordet på hans egen far Lorenzo ikke var tilfældigt. Måske er det nu blevet hans tur til at finde sandheden.'
     },
     LUMACA: {
       realName: 'Tilde',
@@ -860,30 +897,36 @@
       sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
       color: '#94a3b8',
       description:
-        'Du er et loyalt familiemedlem uden særlige evner. Din magt ligger i din stemme: hver dag stemmer familien om hvem der er forræderen. Observer, lyt og stem rigtigt.',
-      secret: 'Familien stoler på dig. Svigt dem ikke.'
+        'Du er et loyalt familiemedlem (Landsbyboer) uden specielle nat-evner. Din styrke er debatten og afstemningen om dagen — observér, lyt og stem forræderne ud.',
+      secret: 'Imperiet står på spil. Gennemsku løgnene ved bordet.',
+      charSecret:
+        'Matilda er begyndt at stille spørgsmålstegn ved sin fars beslutninger. Hun mener, at hun allerede er klar til at overtage magten, men Don Christofo har endnu ikke vist tegn på at give slip.'
     },
-    FIAMMA: {
-      realName: 'Vanni',
-      mafiaName: 'Vannissa Di Legno',
+    OCCHIO: {
+      realName: 'Freddy',
+      mafiaName: 'Fredericca Di Legno',
       emoji: '👔',
       role: 'Familiemedlem',
       sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
       color: '#94a3b8',
       description:
-        'Du er et loyalt familiemedlem uden særlige evner. Din magt ligger i din stemme: hver dag stemmer familien om hvem der er forræderen. Observer, lyt og stem rigtigt.',
-      secret: 'Familien stoler på dig. Svigt dem ikke.'
+        'Du er et loyalt familiemedlem (Landsbyboer) uden specielle nat-evner. Din styrke er debatten og afstemningen om dagen — observér, lyt og stem forræderne ud.',
+      secret: 'Ingen lyver ustraffet for dig. Sæt dem på plads i rådet.',
+      charSecret:
+        'Fredericca er træt af altid at være andenprioritet. Hun drømmer om mere indflydelse i familien og er måske villig til at gå længere, end nogen forestiller sig, for at få den.'
     },
-    PIETRA: {
-      realName: 'Sebastian',
-      mafiaName: 'Sebastiano Di Legno',
+    LUPO13: {
+      realName: 'Aske',
+      mafiaName: 'Ascanio Di Legno',
       emoji: '👔',
       role: 'Familiemedlem',
       sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
       color: '#94a3b8',
       description:
-        'Du er et loyalt familiemedlem uden særlige evner. Din magt ligger i din stemme: hver dag stemmer familien om hvem der er forræderen. Observer, lyt og stem rigtigt.',
-      secret: 'Familien stoler på dig. Svigt dem ikke.'
+        'Du er et loyalt familiemedlem (Landsbyboer) uden specielle nat-evner. Din styrke er debatten og afstemningen om dagen — observér, lyt og stem forræderne ud.',
+      secret: 'Beskyt blodet. Lad ikke forræderne slippe afsted med mordet.',
+      charSecret:
+        'Ascanio har et særligt tæt forhold til sin mor og vil gøre næsten alt for at beskytte hende. Men hans loyalitet bliver sat på prøve, da han opdager, at hun muligvis skjuler noget afgørende om mordet på hans far Lorenzo.'
     },
     ROCCIA: {
       realName: 'Christian',
@@ -893,8 +936,10 @@
       sealBg: 'radial-gradient(circle at 35% 35%, #3a3a3a, #111)',
       color: '#94a3b8',
       description:
-        'Du er et loyalt familiemedlem uden særlige evner. Din magt ligger i din stemme: hver dag stemmer familien om hvem der er forræderen. Observer, lyt og stem rigtigt.',
-      secret: 'Familien stoler på dig. Svigt dem ikke.'
+        'Du er et loyalt familiemedlem (Landsbyboer) uden specielle nat-evner. Din styrke er debatten og afstemningen om dagen — observér, lyt og stem forræderne ud.',
+      secret: 'Hold hovedet koldt — de farligste løgne siges med et smil.',
+      charSecret:
+        'Cristiano har en vidunderlig kvinde i sit liv, som han elsker højt. Hun ved intet om hans mafiafamilie. Han har løjet for hende og lever et dobbeltliv for at beskytte hende fra sin families mørke verden. Hvad sker der, hvis hun en dag finder ud af, hvem han i virkeligheden er?'
     }
   };
 
@@ -932,6 +977,16 @@
     roleEl.style.color = member.color;
     document.getElementById('reveal-desc').textContent = member.description;
     document.getElementById('reveal-secret').textContent = '« ' + member.secret + ' »';
+    const charSecretBox = document.getElementById('reveal-char-secret-box');
+    const charSecretEl = document.getElementById('reveal-char-secret');
+    if (charSecretBox && charSecretEl) {
+      if (member.charSecret) {
+        charSecretEl.textContent = member.charSecret;
+        charSecretBox.style.display = 'block';
+      } else {
+        charSecretBox.style.display = 'none';
+      }
+    }
 
     if (revealOverlay) {
       revealOverlay.classList.add('active');
